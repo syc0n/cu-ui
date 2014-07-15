@@ -1,0 +1,55 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather">
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+<body>
+    <div id="character-selection">
+        <div id="characters-container">
+            <ul id="characters"></ul>
+            <div id="character-selection-controls">
+                <a href="#" id="btn-previous"></a>
+                <a href="#" id="btn-next"></a>
+            </div>
+        </div>
+        <div id="btn-container">
+            <button id="btn-servers" class="btn-normal">Servers</button>
+            <button id="btn-delete" class="btn-normal">Delete</button>
+            <button id="btn-create-new" class="btn-normal">Create New</button>
+            <button id="btn-start">&nbsp;</button>
+        </div>
+    </div>
+    <div id="character-creation">
+        <div id="character-creation-realms">
+            <button id="btn-arthurians">&nbsp;</button>
+            <button id="btn-tdd">&nbsp;</button>
+            <button id="btn-vikings">&nbsp;</button>
+        </div>
+        <div id="character-creation-races">
+            <div class="character-creation-race"></div>
+            <div class="character-creation-race"></div>
+            <div class="character-creation-race"></div>
+            <div class="character-creation-race"></div>
+            <div class="character-creation-race"></div>
+        </div>
+        <div id="character-creation-bottom">
+            <button id="btn-back" class="btn-normal">Back</button>
+            <input type="text" id="character-name" placeholder="Character Name" />
+            <button id="btn-create" disabled>&nbsp;</button>
+        </div>
+    </div>
+    <div id="modal-wrapper">
+        <div id="modal"></div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/underscore.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

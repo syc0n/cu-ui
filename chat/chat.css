@@ -1,0 +1,84 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+body {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+}
+
+#chatBox {
+    position: relative;
+    width: 556px;
+    height: 209px;
+    background: url('../images/chat/box_plate.png') center center no-repeat;
+}
+
+#chatText {
+    position: absolute;
+    left: 24px;
+    top: 4px;
+    width: 532px;
+    height: 182px;
+    overflow-y: scroll;
+    word-wrap: break-word;
+}
+
+.chatItem {
+    color: white;
+    font-family: Tahoma, Geneva, sans-serif;
+    float: left;
+    width: 100%;
+}
+
+.chatBody.groupChat {
+    color: yellow;
+}
+
+.chatBody.imChat {
+    color: greenyellow;
+}
+
+.chatBody.combatChat {
+    font-weight: bold;
+}
+
+#chatInput {
+    position: absolute;
+    left: 20px;
+    top: 188px;
+    width: 535px;
+    height: 17px;
+    background-color: rgba(254, 254, 254, 0);
+    color: white;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    border-style: solid;
+}
+
+#chatInput[data-command-mode="1"]:focus {
+    border-color: blue;
+    border-width: 2px;
+}
+
+.iscse {
+    background-image: url('../images/chat/CSE_icon_badge.png');
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    float: left;
+}
+
+.consoleBody.command {
+    color: lightgray;
+    font-style: italic;
+}
+
+.consoleBody.output {
+    color: white;
+    font-weight: bold;
+}

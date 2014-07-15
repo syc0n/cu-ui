@@ -1,0 +1,146 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+.abilityButton {
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+    -webkit-animation-duration: 0.25s;
+    -webkit-animation-timing-function: ease-out;
+}
+
+.abilityButton[running='1'] {
+    z-index: 1;
+}
+
+.abilityButton[running='1'] .abilityIcon {
+    -webkit-filter: brightness(150%)
+}
+
+.abilityButton[cooldown='1'] .abilityIcon {
+    -webkit-filter: grayscale(100%)
+}
+
+@-webkit-keyframes abilityButtonPress {
+    0% {
+        width: 55px;
+        height: 55px;
+        margin-left: -5px;
+        margin-top: -5px;
+    }
+    100% { }
+}
+
+.abilityButton .abilityIcon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.abilityButton .cooldownRoot {
+    position:absolute;
+    top:0px;
+    left:0px;
+
+    width:100%;
+    height:100%;
+
+    border:0px;
+    margin:0px;
+    padding:0px;
+}
+
+.abilityButton .cooldownRoot .cooldownSlide {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+
+    background: black;
+    opacity: 0.5;
+}
+
+.abilityButton .activeHighlight {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+@-webkit-keyframes hiddenHighlight {
+    to {
+        opacity: 0;
+        width: 50%;
+        height: 50%;
+        margin-left: 25%;
+        margin-top: 25%;
+    }
+}
+
+@-webkit-keyframes visibleHighlight {
+    to {
+        opacity: 1;
+        width: 175%;
+        height: 175%;
+        margin-left: -37%;
+        margin-top: -37%;
+    }
+}
+
+.abilityButton[running='0'] .activeHighlight {
+    opacity: 1;
+    width: 175%;
+    height: 175%;
+    margin-left: -37%;
+    margin-top: -37%;
+    -webkit-animation-name: hiddenHighlight;
+    -webkit-animation-duration: 0.25s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+.abilityButton[running='1'] .activeHighlight {
+    opacity: 0;
+    width: 50%;
+    height: 50%;
+    margin-left: 25%;
+    margin-top: 25%;
+    -webkit-animation-name: visibleHighlight;
+    -webkit-animation-duration: 0.25s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+.abilityButton .queuedIcon {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    height: 45px;
+    width: 45px;
+    border:0px;
+    margin-left: -23px;
+    margin-top: -23px;
+    margin-right: 22px;
+    margin-bottom: 22px;
+    padding: 0px;
+    z-index: 2;
+    visibility: hidden;
+}
+
+.abilityButton[queued='1'] .queuedIcon {
+    visibility: visible;
+}
