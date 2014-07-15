@@ -132,7 +132,7 @@ module Login {
         // Required for cross-site ajax to work on IE
         $.support.cors = true;
 
-        loginToken = cu.HasAPI() ? cuAPI.loginToken : 'H6befVkEqHI2M8BC8xLqw1';
+        loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
 
         if (!loginToken) return;
 
