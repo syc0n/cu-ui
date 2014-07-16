@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 
     var module = grunt.option("module");
 
-    module = module || 'chat';
+    module = module || 'login';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: './*/*.ts',
+            files: './**/*.ts',
             tasks: ['ts:dev']
         },
         open: {
