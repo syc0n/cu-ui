@@ -60,6 +60,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['connect', 'open', 'watch']);
+    grunt.registerTask('default', ['ts:dev', 'connect', 'open', 'watch']);
 
 }
