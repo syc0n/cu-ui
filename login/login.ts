@@ -599,16 +599,18 @@ module Login {
         }).fail(getRaces);
     }
 
-    function updateBackground(selectedRealm)
-    {
+    function updateBackground(selectedRealm) {
         var bgName = 'bg.jpg';
 
-        if (realms[0] == selectedRealm)
+        if (realms[0] == selectedRealm) {
             bgName = 'tddbkg.jpg';
-        else if (realms[1] == selectedRealm)
+        }
+        else if (realms[1] == selectedRealm) {
             bgName = 'vikingbkg.jpg';
-        else if (realms[2] == selectedRealm)
+        }
+        else if (realms[2] == selectedRealm) {
             bgName = 'arthurianbkg.jpg';
+        }
 
         $('html').css('background-image', 'url(../images/login/' + bgName + ')');
     }
