@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 body {
-	font-family: 'Ribeye Marrow', cursive;
-	color: white; 
+    font-family: 'Ribeye Marrow', cursive;
+    color: white; 
     font-size: 20px;
     font-weight: bold;
     overflow: hidden;
@@ -13,5 +13,5 @@ body {
 }
 
 div {
-	text-align: center;
+    text-align: center;
 }
