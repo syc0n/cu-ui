@@ -13,6 +13,12 @@ module Login {
     var $modal = $('#modal');
     var $characters = $('#characters');
 
+    /* Background swapping variables */
+    var $bkgLayer1 = $('#background-layer1');
+    var $bkgLayer2 = $('#background-layer2');
+    var $currentBkg = null;
+    var bkgUseLayer1: boolean = true;
+
     /* Server Selection Variables */
 
     var servers = [
@@ -600,19 +606,36 @@ module Login {
     }
 
     function updateBackground(selectedRealm) {
-        var bgName = 'bg.jpg';
+
+        var imgName = 'bg.jpg';
 
         if (realms[0] == selectedRealm) {
-            bgName = 'tddbkg.jpg';
+            imgName = 'tddbkg.jpg';
         }
         else if (realms[1] == selectedRealm) {
-            bgName = 'vikingbkg.jpg';
+            imgName = 'vikingbkg.jpg';
         }
         else if (realms[2] == selectedRealm) {
-            bgName = 'arthurianbkg.jpg';
+            imgName = 'arthurianbkg.jpg';
         }
 
-        $('html').css('background-image', 'url(../images/login/' + bgName + ')');
+        var newBkg = $bkgLayer2;
+        var currentBkg = $bkgLayer1;
+
+        if ($bkgLayer2 == $currentBkg) {
+            newBkg = $bkgLayer1;
+            currentBkg = $bkgLayer2;
+        }
+
+        currentBkg.css('z-index', -99);
+        newBkg.css('z-index', -100);
+
+        newBkg.css('background-image', 'url(../images/login/' + imgName + ')');
+        newBkg.show();
+
+        currentBkg.fadeOut();
+
+        $currentBkg = newBkg;
     }
 
     function selectRealm(realm, isForced) {
