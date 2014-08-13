@@ -14,15 +14,15 @@ module Login {
     var $characters = $('#characters');
 
     /* Background swapping variables */
-    var $bkgLayer1 = $('#background-layer1');
-    var $bkgLayer2 = $('#background-layer2');
-    var $currentBkg = null;
-    var bkgUseLayer1: boolean = true;
+    var $bgLayer1 = $('#background-layer1');
+    var $bgLayer2 = $('#background-layer2');
+    var $currentBg = null;
+    var bgUseLayer1: boolean = true;
 
     /* Server Selection Variables */
 
     var servers = [
-        { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, viking: 0, total: 0 } }
+        { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, vikings: 0, total: 0 } }
     ];
 
     var selectedServer = null;
@@ -217,7 +217,7 @@ module Login {
     function showServerSelection() {
         selectedServer = null;
 
-        updateBackground(''); //cause the default bg to load;
+        updateBackground(''); // cause the default bg to load
 
         $characterSelection.fadeOut(() => {
             if (!$serversModalContainer) {
@@ -453,11 +453,15 @@ module Login {
                 raceCssClass = getRaceCssClass('Tuatha');
             }
 
-            var $character = $('<li class="character" data-character-id="' + character.id + '" data-character-name="' + _.escape(character.name) + '" data-character-realm="' + character.race.faction.name + '"></li>').appendTo($characters)
+            var $character = $('<li>').addClass('character').attr({
+                'data-character-id': character.id,
+                'data-character-name': _.escape(character.name),
+                'data-character-realm': character.race.faction.name
+            }).appendTo($characters);
 
-            var $portrait = $('<div class="' + raceCssClass + '"></div>').css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
+            var $portrait = $('<div>').addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
 
-            $('<span class="character-name">' + _.escape(character.name) + '</span>').appendTo($portrait);
+            $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
 
             if (index === 0) {
                 $selectedCharacter = $character.fadeIn().css('display', 'inline');
@@ -606,36 +610,33 @@ module Login {
     }
 
     function updateBackground(selectedRealm) {
-
         var imgName = 'bg.jpg';
 
         if (realms[0] == selectedRealm) {
-            imgName = 'tddbkg.jpg';
-        }
-        else if (realms[1] == selectedRealm) {
-            imgName = 'vikingbkg.jpg';
-        }
-        else if (realms[2] == selectedRealm) {
-            imgName = 'arthurianbkg.jpg';
+            imgName = 'bg-tdd.jpg';
+        } else if (realms[1] == selectedRealm) {
+            imgName = 'bg-viking.jpg';
+        } else if (realms[2] == selectedRealm) {
+            imgName = 'bg-arthurian.jpg';
         }
 
-        var newBkg = $bkgLayer2;
-        var currentBkg = $bkgLayer1;
+        var newBg = $bgLayer2;
+        var currentBg = $bgLayer1;
 
-        if ($bkgLayer2 == $currentBkg) {
-            newBkg = $bkgLayer1;
-            currentBkg = $bkgLayer2;
+        if ($bgLayer2 == $currentBg) {
+            newBg = $bgLayer1;
+            currentBg = $bgLayer2;
         }
 
-        currentBkg.css('z-index', -99);
-        newBkg.css('z-index', -100);
+        currentBg.css('z-index', -99);
+        newBg.css('z-index', -100);
 
-        newBkg.css('background-image', 'url(../images/login/' + imgName + ')');
-        newBkg.show();
+        newBg.css('background-image', 'url(../images/login/' + imgName + ')');
+        newBg.show();
 
-        currentBkg.fadeOut();
+        currentBg.fadeOut();
 
-        $currentBkg = newBkg;
+        $currentBg = newBg;
     }
 
     function selectRealm(realm, isForced) {
