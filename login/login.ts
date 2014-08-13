@@ -13,6 +13,12 @@ module Login {
     var $modal = $('#modal');
     var $characters = $('#characters');
 
+    /* Background swapping variables */
+    var $bkgLayer1 = $('#background-layer1');
+    var $bkgLayer2 = $('#background-layer2');
+    var $currentBkg = null;
+    var bkgUseLayer1: boolean = true;
+
     /* Server Selection Variables */
 
     var servers = [
@@ -210,6 +216,8 @@ module Login {
 
     function showServerSelection() {
         selectedServer = null;
+
+        updateBackground(''); //cause the default bg to load;
 
         $characterSelection.fadeOut(() => {
             if (!$serversModalContainer) {
@@ -445,7 +453,7 @@ module Login {
                 raceCssClass = getRaceCssClass('Tuatha');
             }
 
-            var $character = $('<li class="character" data-character-id="' + character.id + '" data-character-name="' + _.escape(character.name) + '"></li>').appendTo($characters);
+            var $character = $('<li class="character" data-character-id="' + character.id + '" data-character-name="' + _.escape(character.name) + '" data-character-realm="' + character.race.faction.name + '"></li>').appendTo($characters)
 
             var $portrait = $('<div class="' + raceCssClass + '"></div>').css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
 
@@ -461,6 +469,7 @@ module Login {
             $nextButton.fadeIn();
         }
 
+        updateBackground($selectedCharacter.data('character-realm'));
         $characterSelection.fadeIn();
     }
 
@@ -486,6 +495,7 @@ module Login {
         } else {
             $selectedCharacter.fadeOut(() => {
                 $selectedCharacter = $nextSelectedCharacter.fadeIn();
+                updateBackground($selectedCharacter.data('character-realm'));
             });
         }
     }
@@ -595,10 +605,45 @@ module Login {
         }).fail(getRaces);
     }
 
+    function updateBackground(selectedRealm) {
+
+        var imgName = 'bg.jpg';
+
+        if (realms[0] == selectedRealm) {
+            imgName = 'tddbkg.jpg';
+        }
+        else if (realms[1] == selectedRealm) {
+            imgName = 'vikingbkg.jpg';
+        }
+        else if (realms[2] == selectedRealm) {
+            imgName = 'arthurianbkg.jpg';
+        }
+
+        var newBkg = $bkgLayer2;
+        var currentBkg = $bkgLayer1;
+
+        if ($bkgLayer2 == $currentBkg) {
+            newBkg = $bkgLayer1;
+            currentBkg = $bkgLayer2;
+        }
+
+        currentBkg.css('z-index', -99);
+        newBkg.css('z-index', -100);
+
+        newBkg.css('background-image', 'url(../images/login/' + imgName + ')');
+        newBkg.show();
+
+        currentBkg.fadeOut();
+
+        $currentBkg = newBkg;
+    }
+
     function selectRealm(realm, isForced) {
         if (selectedRealm === realm && !isForced) return;
 
         selectedRealm = realm;
+
+        updateBackground(selectedRealm);
 
         selectedRace = null;
 
