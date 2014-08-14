@@ -17,7 +17,6 @@ module Login {
     var $bgLayer1 = $('#background-layer1');
     var $bgLayer2 = $('#background-layer2');
     var $currentBg = null;
-    var bgUseLayer1: boolean = true;
 
     /* Server Selection Variables */
 
@@ -217,7 +216,7 @@ module Login {
     function showServerSelection() {
         selectedServer = null;
 
-        updateBackground(''); // cause the default bg to load
+        // updateBackground(''); // cause the default bg to load
 
         $characterSelection.fadeOut(() => {
             if (!$serversModalContainer) {
@@ -473,7 +472,7 @@ module Login {
             $nextButton.fadeIn();
         }
 
-        updateBackground($selectedCharacter.data('character-realm'));
+        // updateBackground($selectedCharacter.data('character-realm'));
         $characterSelection.fadeIn();
     }
 
@@ -499,7 +498,7 @@ module Login {
         } else {
             $selectedCharacter.fadeOut(() => {
                 $selectedCharacter = $nextSelectedCharacter.fadeIn();
-                updateBackground($selectedCharacter.data('character-realm'));
+                // updateBackground($selectedCharacter.data('character-realm'));
             });
         }
     }
@@ -609,6 +608,7 @@ module Login {
         }).fail(getRaces);
     }
 
+    /*
     function updateBackground(selectedRealm) {
         var imgName = 'bg.jpg';
 
@@ -638,13 +638,14 @@ module Login {
 
         $currentBg = newBg;
     }
+    */
 
     function selectRealm(realm, isForced) {
         if (selectedRealm === realm && !isForced) return;
 
         selectedRealm = realm;
 
-        updateBackground(selectedRealm);
+        // updateBackground(selectedRealm);
 
         selectedRace = null;
 
