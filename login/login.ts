@@ -369,9 +369,9 @@ module Login {
 
                     $td.text(text);
                 }
-            }, 500);
+            }, 1000);
 
-            var delay = 5000;
+            var delay = 10000;
 
             serverCharacterRequests[server.host] = $.ajax({
                 type: 'GET',

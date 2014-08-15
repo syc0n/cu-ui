@@ -144,3 +144,24 @@
 .abilityButton[queued='1'] .queuedIcon {
     visibility: visible;
 }
+
+#tooltip {
+    display: none;
+    position: absolute;
+    border: 1px solid #333;
+    background-color: #161616;
+    border-radius: 5px;
+    padding: 10px;
+    color: #bbb;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 11px;
+    width: 200px;
+    max-height: 112px;
+}
+
+#tooltip h1 {
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #fff;
+    font-size: 12px;
+}

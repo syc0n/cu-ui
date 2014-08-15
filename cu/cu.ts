@@ -10,6 +10,8 @@ class Ability {
     cooldowns: CooldownGroup[] = [];
     duration: number;
     triggerTimeOffset: number;
+    name: string;
+    tooltip: string;
 
     buttons: AbilityButton[] = [];
     awaitingUpdate: { (a: Ability): any }[] = null;
@@ -252,6 +254,8 @@ interface ServerAbility {
     cooldowns?: number[];
     duration: number;
     triggerTime: number;
+    name: string;
+    tooltip: string;
 }
 
 
@@ -536,6 +540,8 @@ class CU {
         }
         a.duration = rawAbility.duration;
         a.triggerTimeOffset = rawAbility.triggerTime;
+        a.name = rawAbility.name;
+        a.tooltip = rawAbility.tooltip;
 
         var old = this.abilities[a.id];
         this.abilities[a.id] = a;
@@ -1091,6 +1097,74 @@ class CU {
                 return '<auth' + data.join('') + '>' + value + '</auth>';
             }
         };
+    }
+}
+
+module Tooltip {
+    var $element: JQuery;
+
+    var showTimeout: number;
+
+    var hideTimeout: number;
+
+    var myOptions: any;
+
+    export function init(elements: any, options?: any) {
+        $element = $('#tooltip');
+
+        if (!$element.length) {
+            $element = $('<div>').attr('id', 'tooltip').appendTo(document.body);
+        }
+
+        if (_.isString(elements)) {
+            $(elements).hover(show, hide);
+        } else if (_.isObject(elements)) {
+            elements.hover(show, hide);
+        }
+
+        myOptions = options || {};
+    }
+
+    function show() {
+        var $this = $(this);
+
+        var title = $this.attr('data-tooltip-title');
+
+        var hasTitle = !_.isEmpty(title);
+
+        var content = $this.attr('data-tooltip-content');
+
+        var hasContent = !_.isEmpty(content);
+
+        if (!hasTitle && !hasContent) return;
+
+        clearTimeout(hideTimeout);
+
+        $element.empty();
+
+        if (hasTitle) {
+            $('<h1>').addClass('tooltip-title').text(title).appendTo($element);
+        }
+
+        if (hasContent) {
+            $('<div>').addClass('tooltip-content').text(content).appendTo($element);
+        }
+
+        var offset = $this.offset();
+
+        var left = offset.left + (myOptions.leftOffset || 0);
+
+        var top = offset.top - $element.height() + (myOptions.topOffset || 0);
+
+        $element.css({ left: left, top: top });
+
+        showTimeout = setTimeout(() => $element.stop().fadeIn(200), 800);
+    }
+
+    function hide() {
+        clearTimeout(showTimeout);
+
+        hideTimeout = setTimeout(() => $element.stop().fadeOut(100), 400);
     }
 }
 

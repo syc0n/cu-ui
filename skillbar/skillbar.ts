@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../cu/cu.ts" />
 
 module Skillbar {
     var $skillButtons: JQuery;
@@ -10,14 +11,20 @@ module Skillbar {
     cu.OnServerConnected(() => {
         $skillButtons = cu.FindElement('#skillButtons');
 
-        cu.RequestAllAbilities(function(abilities) {
+        cu.RequestAllAbilities(abilities => {
             abilities.sort((a, b) => a.id.localeCompare(b.id));
 
-            abilities.forEach(function(ability, i) {
+            abilities.forEach((ability, i) => {
                 var button = ability.MakeButton();
-                var elem = button.rootElement.css({ left: (i * 54) + 'px', top: '0px' });
+
+                var elem = button.rootElement.css({ left: (i * 55) + 'px', top: '0' });
+
+                elem.attr('data-tooltip-title', ability.name).attr('data-tooltip-content', ability.tooltip);
+
                 $skillButtons.append(elem);
             });
+
+            Tooltip.init('.abilityButton', { leftOffset: -5, topOffset: -25 });
         });
     });
 
