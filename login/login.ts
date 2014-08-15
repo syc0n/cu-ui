@@ -460,7 +460,15 @@ module Login {
 
             var $portrait = $('<div>').addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
 
-            $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
+            var $name = $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
+
+            if (character.race.description && character.race.description.length && character.race.description !== character.race.name) {
+                $name.css('bottom', '32px');
+
+                $('<div>').addClass('character-description').text(character.race.description).appendTo($portrait);
+            } else {
+                $name.css('bottom', '8px');
+            }
 
             if (index === 0) {
                 $selectedCharacter = $character.fadeIn().css('display', 'inline');
@@ -679,10 +687,18 @@ module Login {
                         try {
                             var raceName = race.name.replace(/([a-z])([A-Z])/g, '$1 $2');
 
-                            $race.empty().append($('<span class="character-name" > ' + raceName + ' </span >'));
+                            var $name = $('<span>').addClass('character-name').text(raceName).appendTo($race.empty());
+
+                            if (race.description && race.description.length && race.description !== race.name) {
+                                $name.css('bottom', '32px');
+
+                                $('<div>').addClass('character-description').text(race.description).appendTo($race);
+                            } else {
+                                $name.css('bottom', '8px');
+                            }
                         } catch (e) {
                             alert(e);
-                        } 
+                        }
 
                         $race.fadeIn().css('display', 'inline-block');
                     }
