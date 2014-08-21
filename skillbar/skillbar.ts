@@ -8,25 +8,51 @@
 module Skillbar {
     var $skillButtons: JQuery;
 
-    cu.OnServerConnected(() => {
-        $skillButtons = cu.FindElement('#skillButtons');
+    var currentAbilities: string[];
+
+    // Function for sorting abilities by server order.
+    function SortByServerOrder(a, b) {
+        var aLoc = cuAPI.abilityNumbers.indexOf(a.id);
+        var bLoc = cuAPI.abilityNumbers.indexOf(b.id);
+
+        if (aLoc < bLoc) { return -1; }
+        else if (aLoc > bLoc) { return 1; }
+        else { return 0; }
+    }
+
+    function UpdateBar() {
+        if (_.isEqual(currentAbilities, cuAPI.abilityNumbers)) return;
+
+        currentAbilities = cuAPI.abilityNumbers;
 
         cu.RequestAllAbilities(abilities => {
-            abilities.sort((a, b) => a.id.localeCompare(b.id));
+            abilities.sort(SortByServerOrder);
+
+            $skillButtons.empty();
 
             abilities.forEach((ability, i) => {
                 var button = ability.MakeButton();
 
-                var elem = button.rootElement.css({ left: (i * 55) + 'px', top: '0' });
+                var elem = button.rootElement.css({ left: (i * 54) + 'px', top: '0' });
 
-                elem.attr('data-tooltip-title', ability.name).attr('data-tooltip-content', ability.tooltip);
+                if (ability.name) elem.attr('data-tooltip-title', ability.name);
+
+                if (ability.tooltip) elem.attr('data-tooltip-content', ability.tooltip);
 
                 $skillButtons.append(elem);
             });
 
-            Tooltip.init('.abilityButton', { leftOffset: -5, topOffset: -25 });
+            Tooltip.init($skillButtons.children(), { leftOffset: -5, topOffset: -25 });
         });
+    }
+
+    cu.OnServerConnected(() => {
+        $skillButtons = cu.FindElement('#skillButtons');
     });
 
     cu.SetDebugServer();
+
+    // How often we call Update
+    var updateFPS = .5;
+    cu.RunAtInterval(UpdateBar, updateFPS);
 }

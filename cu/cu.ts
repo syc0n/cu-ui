@@ -119,23 +119,10 @@ class CooldownGroup {
 
 class AbilityButton {
     constructor(public ability: Ability, private cu: CU) {
-        this.rootElement = $('<div/>', {
-            class: 'abilityButton'
-        });
-        this.rootElement.append($('<img/>', {
-            class: 'activeHighlight',
-            src: '../images/skillbar/ActiveFrame.gif'
-        }));
-        this.rootElement.append($('<img/>', {
-            class: 'abilityIcon',
-            src: ability.icon
-        }).click((event) => {
-            ability.Perform();
-        }));
-        this.rootElement.append($('<img/>', {
-            class: 'queuedIcon',
-            src: '../images/skillbar/NextArrow.png'
-        }));
+        this.rootElement = $('<div/>').addClass('abilityButton');
+        this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
+        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon).click(ability.Perform));
+        this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
 
         this.UpdateVisuals();
     }
@@ -159,8 +146,6 @@ class AbilityButton {
         if (this.ability.CurrentlyRunning()) {
             if (Math.abs(this.activeStartTime - this.ability.startWorldTime) > 0.1) {
                 this.activeStartTime = this.ability.startWorldTime;
-                this.rootElement.css('webkitAnimationName', 'abilityButtonPress');
-                window.setTimeout(() => this.rootElement.css('webkitAnimationName', ''), 250);
                 window.setTimeout(() => this.UpdateVisuals(), 1000 * (this.ability.endWorldTime - this.cu.ServerTime()) + 17);
             }
             this.rootElement.attr('running', 1);
@@ -514,8 +499,14 @@ class CU {
 
     RequestAllAbilities(callback: (a: Ability[]) => any): void {
         if (!this.allAbilitiesCallback) {
+            if (typeof cuAPI.abilityNumbers === 'undefined') { return; }
             this.allAbilitiesCallback = [callback];
-            $.getJSON(this.gameServerURL + 'abilities', (data) => this.UpdateAllAbilities(data));
+            $.getJSON(this.gameServerURL + 'abilities', (data) => {
+                var abilities = data.filter(ability => {
+                    return cuAPI.abilityNumbers.indexOf(ability.id) !== -1;
+                });
+                this.UpdateAllAbilities(abilities);
+            });
         } else {
             this.allAbilitiesCallback.push(callback);
         }
