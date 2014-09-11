@@ -192,6 +192,9 @@ module Chat {
             case '/stuck':
                 cuAPI.Stuck();
                 return true;
+            case "/crashthegame":
+                cuAPI.CrashTheGame();
+                return true;
             default:
                 return false;
         }
