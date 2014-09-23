@@ -27,20 +27,38 @@
     <Content Include="errormessages\errormessages.html" />
     <Content Include="gamemenu\gamemenu.css" />
     <Content Include="gamemenu\gamemenu.html" />
+    <Content Include="images\archetypes\earthmage.jpg" />
+    <Content Include="images\archetypes\fighter.jpg" />
+    <Content Include="images\archetypes\firemage.jpg" />
+    <Content Include="images\archetypes\healer.jpg" />
+    <Content Include="images\archetypes\watermage.jpg" />
+    <Content Include="images\banes\bane.jpg" />
+    <Content Include="images\boons\boon.jpg" />
     <Content Include="images\character\bar_health.png" />
     <Content Include="images\character\bar_mana.png" />
     <Content Include="images\character\bar_plate.png" />
     <Content Include="images\chat\box_plate.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
     <Content Include="images\errormessages\alert-bg.png" />
+    <Content Include="images\login\arthurians-bg.jpg" />
     <Content Include="images\login\bg-arthurian.jpg" />
     <Content Include="images\login\bg-tdd.jpg" />
     <Content Include="images\login\bg-viking.jpg" />
     <Content Include="images\login\bg.jpg" />
+    <Content Include="images\login\boons-banes-category.png" />
+    <Content Include="images\login\boons-banes-frame.png" />
     <Content Include="images\login\btn-arthurian-sprite.png" />
+    <Content Include="images\login\btn-attributes.png" />
+    <Content Include="images\login\btn-back.png" />
+    <Content Include="images\login\btn-boon.png" />
+    <Content Include="images\login\btn-character.png" />
+    <Content Include="images\login\btn-complete.png" />
     <Content Include="images\login\btn-create-sprite.png" />
+    <Content Include="images\login\btn-decrease.png" />
+    <Content Include="images\login\btn-increase.png" />
     <Content Include="images\login\btn-left-arrow.png" />
     <Content Include="images\login\btn-normal-sprite.png" />
+    <Content Include="images\login\btn-reset.png" />
     <Content Include="images\login\btn-right-arrow.png" />
     <Content Include="images\login\btn-start-sprite.png" />
     <Content Include="images\login\btn-tdd-sprite.png" />
@@ -69,7 +87,49 @@
     <Content Include="images\login\char-tuatha.jpg" />
     <Content Include="images\login\char-valkyrie-select.jpg" />
     <Content Include="images\login\char-valkyrie.jpg" />
+    <Content Include="images\login\choose-faction-bg.jpg" />
+    <Content Include="images\login\choose-your-faction.png" />
     <Content Include="images\login\modal.png" />
+    <Content Include="images\login\name-underline.png" />
+    <Content Include="images\login\neededpoints-bg.png" />
+    <Content Include="images\login\parchment-bg.png" />
+    <Content Include="images\login\shield-arthurians.png" />
+    <Content Include="images\login\shield-tdd.png" />
+    <Content Include="images\login\shield-vikings.png" />
+    <Content Include="images\login\tdd-bg.jpg" />
+    <Content Include="images\login\topnav-frame.png" />
+    <Content Include="images\login\vikings-bg.jpg" />
+    <Content Include="images\races\beansidhe.jpg" />
+    <Content Include="images\races\caitsith-stand.png" />
+    <Content Include="images\races\caitsith.jpg" />
+    <Content Include="images\races\dvergr-stand.png" />
+    <Content Include="images\races\dvergr.jpg" />
+    <Content Include="images\races\firbog-stand.png" />
+    <Content Include="images\races\firbog.jpg" />
+    <Content Include="images\races\frostgiant-stand.png" />
+    <Content Include="images\races\frostgiant.jpg" />
+    <Content Include="images\races\gargoyle-stand.png" />
+    <Content Include="images\races\gargoyle.jpg" />
+    <Content Include="images\races\golem-stand.png" />
+    <Content Include="images\races\golem.jpg" />
+    <Content Include="images\races\hamadryad-stand.png" />
+    <Content Include="images\races\hamadryad.jpg" />
+    <Content Include="images\races\helbound-stand.png" />
+    <Content Include="images\races\helbound.jpg" />
+    <Content Include="images\races\human-stand.png" />
+    <Content Include="images\races\human.jpg" />
+    <Content Include="images\races\luchorpan-stand.png" />
+    <Content Include="images\races\luchorpan.jpg" />
+    <Content Include="images\races\silverhand.jpg" />
+    <Content Include="images\races\stormrider.jpg" />
+    <Content Include="images\races\strm-stand.png" />
+    <Content Include="images\races\strm.jpg" />
+    <Content Include="images\races\tuatha-stand.png" />
+    <Content Include="images\races\tuatha.jpg" />
+    <Content Include="images\races\ulfhednar.jpg" />
+    <Content Include="images\races\valkyrie-stand.png" />
+    <Content Include="images\races\valkyrie.jpg" />
+    <Content Include="images\races\viking.jpg" />
     <Content Include="images\respawn\bg.png" />
     <Content Include="images\skillbar\active-frame.gif" />
     <Content Include="images\skillbar\bar_skills_plate.png" />
@@ -177,7 +237,9 @@
     <Content Include="vendor\underscore.js" />
     <Content Include="web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="images\items\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

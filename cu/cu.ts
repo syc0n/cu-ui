@@ -119,9 +119,9 @@ class CooldownGroup {
 
 class AbilityButton {
     constructor(public ability: Ability, private cu: CU) {
-        this.rootElement = $('<div/>').addClass('abilityButton');
+        this.rootElement = $('<div/>').addClass('abilityButton').click(() => ability.Perform());
         this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
-        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon).click(() => ability.Perform()));
+        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon));
         this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
 
         this.UpdateVisuals();
@@ -636,17 +636,19 @@ class CU {
 
     public GetFactionCssClassName(factionValue: Number): string {
         switch (factionValue) {
-            case 2: return 'arthurian';
-            case 1: return 'viking';
-            default: return 'tdd';
+            case 3: return 'arthurian';
+            case 2: return 'viking';
+            case 1: return 'tdd';
+            default: return 'factionless';
         }
     }
 
     public GetFactionName(factionValue: Number): string {
         switch (factionValue) {
-            case 2: return 'Arthurian';
-            case 1: return 'Viking';
-            default: return 'Tuatha De Danann';
+            case 3: return 'Arthurian';
+            case 2: return 'Viking';
+            case 1: return 'Tuatha De Danann';
+            default: return 'Factionless';
         }
     }
 
@@ -1090,71 +1092,103 @@ class CU {
     }
 }
 
-module Tooltip {
-    var $element: JQuery;
+class Tooltip {
+    static $window: JQuery;
 
-    var showTimeout: number;
+    static $container: JQuery;
 
-    var hideTimeout: number;
+    static showTimeout: number;
 
-    var myOptions: any;
+    static hideTimeout: number;
 
-    export function init(elements: any, options?: any) {
-        $element = $('#tooltip');
+    constructor(private elements: any, private options: any = {}) {
+        Tooltip.$window = Tooltip.$window || $(window);
 
-        if (!$element.length) {
-            $element = $('<div>').attr('id', 'tooltip').appendTo(document.body);
+        Tooltip.$container = Tooltip.$container || $('#tooltip');
+
+        if (!Tooltip.$container.length) {
+            Tooltip.$container = $('<div>').attr('id', 'tooltip').appendTo(document.body);
         }
 
         if (_.isString(elements)) {
-            $(elements).hover(show, hide);
+            $(elements).unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
         } else if (_.isObject(elements)) {
-            elements.hover(show, hide);
+            elements.unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
         }
-
-        myOptions = options || {};
     }
 
-    function show() {
-        var $this = $(this);
+    public show(e: JQueryEventObject) {
+        var $target = $(e.target);
 
-        var title = $this.attr('data-tooltip-title');
+        var title;
+
+        if (_.isFunction(this.options.title)) {
+            title = this.options.title();
+        } else {
+            title = $target.attr('data-tooltip-title');
+        }
 
         var hasTitle = !_.isEmpty(title);
 
-        var content = $this.attr('data-tooltip-content');
+        var content;
+
+        if (_.isFunction(this.options.content)) {
+            content = this.options.content();
+        } else {
+            content = $target.attr('data-tooltip-content');
+        }
 
         var hasContent = !_.isEmpty(content);
 
         if (!hasTitle && !hasContent) return;
 
-        clearTimeout(hideTimeout);
+        clearTimeout(Tooltip.hideTimeout);
 
-        $element.empty();
+        Tooltip.hideTimeout = null;
+
+        Tooltip.$container.empty();
 
         if (hasTitle) {
-            $('<h1>').addClass('tooltip-title').text(title).appendTo($element);
+            $('<h1>').addClass('tooltip-title').text(title).appendTo(Tooltip.$container);
         }
 
         if (hasContent) {
-            $('<div>').addClass('tooltip-content').text(content).appendTo($element);
+            if (_.isString(content)) {
+                $('<div>').addClass('tooltip-content').text(content).appendTo(Tooltip.$container);
+            } else {
+                $('<div>').addClass('tooltip-content').appendTo(Tooltip.$container).append(content);
+            }
         }
 
-        var offset = $this.offset();
+        var offset = $target.offset();
 
-        var left = offset.left + (myOptions.leftOffset || 0);
+        var left = offset.left + (this.options.leftOffset || 0);
 
-        var top = offset.top - $element.height() + (myOptions.topOffset || 0);
+        var windowWidth = Tooltip.$window.width();
 
-        $element.css({ left: left, top: top });
+        var containerWidth = Tooltip.$container.outerWidth();
 
-        showTimeout = setTimeout(() => $element.stop().fadeIn(200), 800);
+        if (left + containerWidth > windowWidth) {
+            left = windowWidth - containerWidth;
+        }
+
+        var top = offset.top - Tooltip.$container.height() + (this.options.topOffset || 0);
+
+        Tooltip.$container.css({ left: left, top: top });
+
+        var showDelay = _.isNumber(this.options.showDelay) ? this.options.showDelay : 800;
+
+        Tooltip.showTimeout = setTimeout(() => Tooltip.$container.stop().fadeIn(200), showDelay);
     }
 
-    function hide() {
-        clearTimeout(showTimeout);
+    public hide() {
+        clearTimeout(Tooltip.showTimeout);
 
-        hideTimeout = setTimeout(() => $element.stop().fadeOut(100), 400);
+        Tooltip.showTimeout = null;
+
+        var hideDelay = _.isNumber(this.options.hideDelay) ? this.options.hideDelay : 400;
+
+        Tooltip.hideTimeout = setTimeout(() => Tooltip.$container.stop().fadeOut(100), hideDelay);
     }
 }
 
@@ -1188,17 +1222,6 @@ interface CUInGameAPI {
     CancelOnAbilityActive(c: number);
 
     OnAbilityError(c: (message: string) => any): void;
-
-    inventoryItemIDs: string[];
-
-    Equip(itemID: string): void;
-    OnEquipped(callback: (itemID: string) => any);
-
-    Unequip(itemID: string): void;
-    OnUnequipped(callback: (itemID: string) => any);
-
-    GetItem(itemID: string): void;
-    OnGetItemResponse(callback: (itemID: string, data: string) => any);
 }
 
 declare var cuAPI: any;

@@ -6,9 +6,18 @@ html, body {
     overflow: hidden;
 }
 
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #skillBar {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 50%;
     width: 1170px;
     height: 80px;
@@ -23,4 +32,14 @@ html, body {
     left: 50%;
     color: white;
     margin: 0 0 0 -495px;
+}
+
+.abilityButton {
+    cursor: pointer;
+}
+
+.activeHighlight,
+.abilityIcon,
+.queuedIcon {
+    pointer-events: none;    
 }
