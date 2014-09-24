@@ -281,6 +281,11 @@ enum XmppAuthMechanism {
     CSELOGINTOKEN
 }
 
+// These are the tags needed by the C++ Layer to know which variables to send to the window.
+enum Tags {
+    KEYBIND = 2
+}
+
 
 class JID {
     public user: string = '';
@@ -419,9 +424,6 @@ class CU {
     private isBound: boolean = false;
     private currentJid: JID = null;
     private roomSelfPresences: Array<string> = [];
-
-    // These are the tags needed by the C++ Layer to know which variables to send to the window.
-    keyBindingTag = 2;
     /* End Variables */
 
     OnInitialized(c: () => any) {

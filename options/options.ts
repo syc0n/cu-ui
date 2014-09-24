@@ -32,7 +32,7 @@ module KeyBindings {
     });
 
     cu.OnInitialized(function () {
-        cu.GetConfigVars(cu.keyBindingTag);
+        cu.GetConfigVars(Tags.KEYBIND);
     });
 
     $('#btn-apply').click(function () {
@@ -45,12 +45,12 @@ module KeyBindings {
     });
 
     $('#btn-defaults').click(function () {
-        cuAPI.RestoreConfigDefaults(cu.keyBindingTag);
-        cuAPI.GetConfigVars(cu.keyBindingTag);
+        cuAPI.RestoreConfigDefaults(Tags.KEYBIND);
+        cuAPI.GetConfigVars(Tags.KEYBIND);
     });
 
     $('#btn-cancel').click(function () {
-        cuAPI.CancelAllConfigChanges(cu.keyBindingTag);
+        cuAPI.CancelAllConfigChanges(Tags.KEYBIND);
         cuAPI.CloseUI('options');
     });
 }
