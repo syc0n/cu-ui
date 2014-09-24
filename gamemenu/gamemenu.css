@@ -5,18 +5,32 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: clear;
+    background-color: rgba(0, 0, 0, 0.5);
     overflow: hidden;
     font-family: 'Merriweather', sans-serif;
+    width: 232px;
+    height: 225px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
 }
 
-#btn-container {
-    position: absolute;
+#menu-header {
+    position: relative;
     margin: 0 auto;
     padding: 0;
     text-align: center;
-    width: 100%;
-    bottom: 3%;
+    width: 232px;
+    height: 20px;
+    top: 0px;
+}
+#btn-container {
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    width: 232px;
+    height: 200px;
 }
 .btn-normal {
     background: url('../images/login/btn-normal-sprite.png') no-repeat 0 0;
@@ -27,8 +41,8 @@ body {
                   2px -2px 3px rgba(0,0,0,0.3),
                  -2px  2px 3px rgba(0,0,0,0.3),
                  -2px -2px 3px rgba(0,0,0,0.3);
-    vertical-align: middle;
-    display: table-cell;
+    line-height: 75px;
+    color: green;
 }
 
 .btn-normal:hover {
@@ -37,12 +51,4 @@ body {
 
 .btn-normal:active {
     background-position: 0 -152px;
-}
-
-#btn-quit {
-    color: green;
-}
-
-#btn-cancel {
-    color: red;
 }

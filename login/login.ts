@@ -2753,15 +2753,19 @@ module Login {
             options.success = result => {
                 $btnComplete.prop('disabled', false).removeClass('waiting');
 
-                if (result && result.results && result.results.success && result.character && result.character.id) {
-                    $characterCreation.fadeOut().promise().done(() => {
-                        connect(result.character);
-                    });
+                if (result && result.results) {
+                    if (result.results.success && result.character && result.character.id) {
+                        $characterCreation.fadeOut().promise().done(() => {
+                            connect(result.character);
+                        });
+                    } else {
+                        showModal(createErrorModal(result.results.join(' ')));
+                    }
                 } else {
                     showModal(createErrorModal('An unknown error occurred.'));
                 }
             };
-            options.error = err => {
+            options.error = (xhr, status, err) => {
                 $btnComplete.prop('disabled', false).removeClass('waiting');
 
                 showModal(createErrorModal(err));

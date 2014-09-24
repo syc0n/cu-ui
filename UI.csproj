@@ -104,6 +104,10 @@
     <Content Include="images\login\tdd-bg.jpg" />
     <Content Include="images\login\topnav-frame.png" />
     <Content Include="images\login\vikings-bg.jpg" />
+    <Content Include="images\options\keybind-bg.png" />
+    <Content Include="images\options\menubutton.png" />
+    <Content Include="images\options\savebutton.png" />
+    <Content Include="images\options\sidemenu.png" />
     <Content Include="images\races\beansidhe.jpg" />
     <Content Include="images\races\caitsith-stand.png" />
     <Content Include="images\races\caitsith.jpg" />
@@ -193,6 +197,7 @@
     <Content Include="kills\kills.html" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
+    <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
@@ -200,8 +205,11 @@
     <Content Include="nameplate\nameplate.css" />
     <Content Include="nameplate\nameplate.html" />
     <TypeScriptCompile Include="nameplate\nameplate.ts" />
+    <Content Include="options\options.css" />
+    <Content Include="options\options.html" />
     <Content Include="perfhud\perfhud.css" />
     <Content Include="perfhud\perfhud.html" />
+    <TypeScriptCompile Include="options\options.ts" />
     <TypeScriptCompile Include="perfhud\perfhud.ts" />
     <Content Include="respawn\respawn.css" />
     <Content Include="respawn\respawn.html" />
@@ -230,6 +238,7 @@
     <Content Include="README.md" />
     <Content Include="equippedgear.ui" />
     <Content Include="inventory.ui" />
+    <Content Include="options.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

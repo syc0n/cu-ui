@@ -356,6 +356,14 @@ class CU {
                     this.gameClient.OnAbilityError((message) => this.HandleAbilityError(message));
                 }
 
+                if (_.isFunction(this.gameClient.OnReceiveConfigVars)) {
+                    this.gameClient.OnReceiveConfigVars((configs) => this.HandleReceiveConfigVars(configs));
+                }
+
+                if (_.isFunction(this.gameClient.OnConfigVarChanged)) {
+                    this.gameClient.OnConfigVarChanged((isChangeSuccessful) => this.HandleConfigVarChanged(isChangeSuccessful));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -411,6 +419,9 @@ class CU {
     private isBound: boolean = false;
     private currentJid: JID = null;
     private roomSelfPresences: Array<string> = [];
+
+    // These are the tags needed by the C++ Layer to know which variables to send to the window.
+    keyBindingTag = 2;
     /* End Variables */
 
     OnInitialized(c: () => any) {
@@ -616,6 +627,62 @@ class CU {
 
     public HandleAbilityError(message) {
         this.Fire('HandleAbilityError', message);
+    }
+
+    public HandleReceiveConfigVars(configs) {
+        this.Fire('HandleReceiveConfigVars', configs);
+    }
+
+    public HandleConfigVarChanged(isChangeSuccessful) {
+        this.Fire('HandleConfigVarChanged', isChangeSuccessful);
+    }
+
+    public GetConfigVars(tag): void {
+        if (cu.HasAPI()) {
+            cuAPI.GetConfigVars(tag);
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public ChangeConfigVar(variable, value): void {
+        if (cu.HasAPI()) {
+            cuAPI.ChangeConfigVar(variable, value);
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public CancelChangeConfig(variable): void {
+        if (cu.HasAPI()) {
+            cuAPI.CancelChangeConfig(variable);
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public SaveConfigChanges(): void {
+        if (cu.HasAPI()) {
+            cuAPI.SaveConfigChanges();
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public CancelAllConfigChanges(tag): void {
+        if (cu.HasAPI()) {
+            cuAPI.CancelAllConfigChanges(tag);
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public RestoreConfigDefaults(tag): void {
+        if (cu.HasAPI()) {
+            cuAPI.RestoreConfigDefaults(tag);
+        } else {
+            throw new Error('Not implemented');
+        }
     }
 
     public Fire(event: string, ...args: any[]) {
@@ -1233,6 +1300,10 @@ interface CUInGameAPI {
 
     GetItem(itemID: string): void;
     OnGetItemResponse(callback: (itemID: string, data: string) => any);
+
+    OnReceiveConfigVars(c: (configs: string) => any): void;
+
+    OnConfigVarChanged(c: (isChangeSuccessful: boolean) => any): void;
 }
 
 declare var cuAPI: any;
