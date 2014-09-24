@@ -1021,30 +1021,24 @@ module Login {
     function getArchetypeIndexForChosenRace() {
         if (!chosenRace) return 0;
         switch (chosenRace.value) {
-            // Tuatha = Earth Mage
-            case 0: return 0;
             // Hamadryad = Fighter
-            case 1: return 1;
+            case 0: return 1;
             // Luchorpan = Support
-            case 2: return 2;
+            case 1: return 2;
             // Firbog = Earth Mage
-            case 3: return 0;
+            case 2: return 0;
             // Valkyrie = Water Mage
-            case 4: return 0;
+            case 3: return 0;
             // Helbound = Support
-            case 5: return 2;
+            case 4: return 2;
             // Frost Giant = Fighter
-            case 6: return 1;
-            // Dvergr = Fighter
-            case 7: return 1;
+            case 5: return 1;
             // Strm = Fire Mage
-            case 8: return 0;
+            case 6: return 0;
             // Cait Sith = Fighter
-            case 9: return 1;
+            case 7: return 1;
             // Golem = Support
-            case 10: return 2;
-            // Gargoyle = Fighter
-            case 11: return 1;
+            case 8: return 2;
         }
         return 0;
     }
