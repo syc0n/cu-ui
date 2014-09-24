@@ -1222,6 +1222,17 @@ interface CUInGameAPI {
     CancelOnAbilityActive(c: number);
 
     OnAbilityError(c: (message: string) => any): void;
+
+    inventoryItemIDs: string[];
+
+    Equip(itemID: string): void;
+    OnEquipped(callback: (itemID: string) => any);
+
+    Unequip(itemID: string): void;
+    OnUnequipped(callback: (itemID: string) => any);
+
+    GetItem(itemID: string): void;
+    OnGetItemResponse(callback: (itemID: string, data: string) => any);
 }
 
 declare var cuAPI: any;

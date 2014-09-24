@@ -23,6 +23,8 @@
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
     <Content Include="cu\cu.css" />
+    <Content Include="equippedgear\equippedgear.css" />
+    <Content Include="equippedgear\equippedgear.html" />
     <Content Include="errormessages\errormessages.css" />
     <Content Include="errormessages\errormessages.html" />
     <Content Include="gamemenu\gamemenu.css" />
@@ -39,7 +41,10 @@
     <Content Include="images\character\bar_plate.png" />
     <Content Include="images\chat\box_plate.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
+    <Content Include="images\equippedgear\bg.png" />
     <Content Include="images\errormessages\alert-bg.png" />
+    <Content Include="images\inventory\bg.png" />
+    <Content Include="images\items\icon.png" />
     <Content Include="images\login\arthurians-bg.jpg" />
     <Content Include="images\login\bg-arthurian.jpg" />
     <Content Include="images\login\bg-tdd.jpg" />
@@ -182,8 +187,12 @@
     <Content Include="images\skills\water-Wall.jpg" />
     <Content Include="images\skills\water-Wave.jpg" />
     <Content Include="images\target\target_plate.png" />
+    <Content Include="inventory\inventory.css" />
+    <Content Include="inventory\inventory.html" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
+    <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
@@ -219,6 +228,8 @@
     <Content Include="respawn.ui" />
     <Content Include="LICENSE" />
     <Content Include="README.md" />
+    <Content Include="equippedgear.ui" />
+    <Content Include="inventory.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -237,9 +248,7 @@
     <Content Include="vendor\underscore.js" />
     <Content Include="web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images\items\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
