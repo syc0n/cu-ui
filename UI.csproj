@@ -25,6 +25,8 @@
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
+    <Content Include="controlgame\controlgame.css" />
+    <Content Include="controlgame\controlgame.html" />
     <Content Include="cu\cu.css" />
     <Content Include="equippedgear\equippedgear.css" />
     <Content Include="equippedgear\equippedgear.html" />
@@ -45,6 +47,7 @@
     <Content Include="images\character\bar_plate.png" />
     <Content Include="images\chat\box_plate.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
+    <Content Include="images\controlgame\bg.png" />
     <Content Include="images\equippedgear\bg.png" />
     <Content Include="images\errormessages\alert-bg.png" />
     <Content Include="images\inventory\bg.png" />
@@ -97,6 +100,7 @@
     <Content Include="images\login\char-valkyrie.jpg" />
     <Content Include="images\login\choose-faction-bg.jpg" />
     <Content Include="images\login\choose-your-faction.png" />
+    <Content Include="images\login\loading-bg.png" />
     <Content Include="images\login\modal.png" />
     <Content Include="images\login\name-underline.png" />
     <Content Include="images\login\neededpoints-bg.png" />
@@ -198,6 +202,7 @@
     <Content Include="inventory\inventory.html" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
@@ -218,6 +223,7 @@
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
+    <TypeScriptCompile Include="vendor\promise.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="cu\cu.ts" />
@@ -243,6 +249,7 @@
     <Content Include="inventory.ui" />
     <Content Include="options.ui" />
     <Content Include="announcement.ui" />
+    <Content Include="controlgame.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
