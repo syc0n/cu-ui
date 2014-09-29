@@ -437,7 +437,7 @@ module Login {
 
             var $portrait = $('<div>').addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
 
-            var $name = $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
+            var $name = $('<span>').addClass('character-name').html(_.escape(character.name)).appendTo($portrait);
 
             if (character.race.description && character.race.description.length && character.race.description !== character.race.name) {
                 $name.css('bottom', '32px');
@@ -2809,7 +2809,9 @@ module Login {
         });
 
         $characterComplete.unbind('click submit').click(() => {
-            flashCharacterName();
+            if (!hasChosenName()) {
+                flashCharacterName();
+            }
         }).submit(() => {
             if (!isValid()) return false;
 
