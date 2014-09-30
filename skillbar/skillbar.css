@@ -31,6 +31,8 @@ html, body {
 
 .activeHighlight,
 .abilityIcon,
-.queuedIcon {
+.queuedIcon,
+.cooldownRoot,
+.cooldownSlide {
     pointer-events: none;    
 }
