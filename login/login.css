@@ -1260,7 +1260,7 @@ input[type=text] {
     border: 1px solid #ff2f00;
 }
 
-.boons li.prereqs:before {
+.boons li.has-prereq:before {
     content: '';
     display: block;
     width: 16px;
@@ -1272,7 +1272,7 @@ input[type=text] {
     top: -5px;
 }
 
-.banes li.prereqs:before {
+.banes li.has-prereq:before {
     content: '';
     display: block;
     width: 16px;
