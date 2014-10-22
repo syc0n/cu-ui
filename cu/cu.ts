@@ -4,6 +4,24 @@
 
 /// <reference path="../vendor/jquery.d.ts" />
 
+// Keep in sync with Race enum on client and server
+enum Race {
+    //Tuatha,
+    Hamadryad,
+    Luchorpan,
+    Firbog,
+
+    Valkyrie,
+    Helbound,
+    FrostGiant,
+    //Dvergr,
+
+    Strm,
+    CaitSith,
+    Golem,
+    //Gargoyle
+}
+
 class Ability {
     id: string;
     icon: string;
@@ -19,8 +37,8 @@ class Ability {
     constructor(private cu: CU) {
     }
 
-    MakeButton(): AbilityButton {
-        var button = new AbilityButton(this, this.cu);
+    MakeButton(index): AbilityButton {
+        var button = new AbilityButton(this, this.cu, index);
         this.buttons.push(button);
         return button;
     }
@@ -118,11 +136,28 @@ class CooldownGroup {
 
 
 class AbilityButton {
-    constructor(public ability: Ability, private cu: CU) {
+    constructor(public ability: Ability, private cu: CU, private index) {
         this.rootElement = $('<div/>').addClass('abilityButton').click(() => ability.Perform());
         this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
         this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon));
         this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
+        var $key = $('<span>').addClass('key').appendTo(this.rootElement);
+        var keyBindName = 'Ability ' + (index + 1);
+
+        cu.GetConfigVar(keyBindName);
+
+        cu.Listen('HandleReceiveConfigVar', (configVar) => {
+            if (configVar && configVar.hasOwnProperty(keyBindName)) {
+                var key = KeyCode.dxKeyCodeMap[configVar[keyBindName]];
+                if (key) {
+                    $key.text(key);
+                }
+            }
+        });
+
+        cu.Listen('HandleSavedConfigChanges', () => {
+            cu.GetConfigVar(keyBindName);
+        });
 
         this.UpdateVisuals();
     }
@@ -848,11 +883,12 @@ class CU {
 
     RequestAllAbilities(callback: (a: Ability[]) => any): void {
         if (!this.allAbilitiesCallback) {
-            if (typeof cuAPI.abilityNumbers === 'undefined') { return; }
+            var hasAPI = this.HasAPI();
+            if (hasAPI && typeof cuAPI.abilityNumbers === 'undefined') { return; }
             this.allAbilitiesCallback = [callback];
             $.getJSON(this.gameServerURL + 'abilities', (data) => {
                 var abilities = data.filter(ability => {
-                    return cuAPI.abilityNumbers.indexOf(ability.id) !== -1;
+                    return !hasAPI || cuAPI.abilityNumbers.indexOf(ability.id) !== -1;
                 });
                 this.UpdateAllAbilities(abilities);
             });
@@ -954,6 +990,7 @@ class CU {
 
     public RunAtInterval(callback: () => void, updateFPS: number = 5): number {
         if (updateFPS > 0) {
+            callback();
             return window.setInterval(callback, 1000 / updateFPS);
         }
     }
