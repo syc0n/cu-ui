@@ -774,8 +774,10 @@ class CU {
     /* Begin Constants */
     public CHAT_DOMAIN = 'chat.camelotunchained.com';
     public CHAT_SERVICE = 'conference.' + this.CHAT_DOMAIN;
-    public GLOBAL_CHATROOM = '_global@' + this.CHAT_SERVICE;
-    public COMBAT_CHATROOM = '_combat@' + this.CHAT_SERVICE;
+    public GLOBAL_CHATROOM_NAME = '_global';
+    public COMBAT_CHATROOM_NAME = '_combat';
+    public GLOBAL_CHATROOM = this.GLOBAL_CHATROOM_NAME + '@' + this.CHAT_SERVICE;
+    public COMBAT_CHATROOM = this.COMBAT_CHATROOM_NAME + '@' + this.CHAT_SERVICE;
 
     private WEB_API_HOST = 'chat.camelotunchained.com';
     private WEB_API_PORT = 8000;
@@ -1109,16 +1111,12 @@ class CU {
     public JoinMUC(room): void {
         if (cu.HasAPI()) {
             cuAPI.JoinMUC(room);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public LeaveMUC(room): void {
         if (cu.HasAPI()) {
             cuAPI.LeaveMUC(room);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 

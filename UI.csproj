@@ -46,7 +46,7 @@
     <Content Include="images\character\energy-bar.png" />
     <Content Include="images\character\frame.png" />
     <Content Include="images\character\health-bar.png" />
-    <Content Include="images\chat\box_plate.png" />
+    <Content Include="images\chat\btn-close.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
     <Content Include="images\controlgame\bg.png" />
     <Content Include="images\equippedgear\bg.png" />
