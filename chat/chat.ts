@@ -304,13 +304,13 @@ module Chat {
         switch (processed.name) {
             case '/join':
                 if (processed.args.length < 1) return false;
-                channel = processed.args[0];
+                channel = processed.args[0].toLowerCase();
                 cu.JoinMUC(channel);
                 joinRoom(channel);
                 return true;
             case '/leave':
                 if (processed.args.length < 1) return false;
-                channel = processed.args[0];
+                channel = processed.args[0].toLowerCase();
                 cu.LeaveMUC(channel);
                 leaveRoom(channel);
                 return true;
