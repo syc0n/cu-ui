@@ -1781,6 +1781,9 @@ interface CUInGameAPI {
     Quit: () => void;
     CrashTheGame: () => void;
     OnUpdateNameplate: (c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void) => void;
+
+    /* Other */
+    vsync: number;    
 }
 
 declare var cuAPI: CUInGameAPI;
