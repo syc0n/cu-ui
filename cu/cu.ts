@@ -460,12 +460,12 @@ var KeyCode = {
         0xC5: 'PAUSE',
         0xC7: 'HOME ',
         0xC8: 'UP',
-        0xC9: 'PRIOR',
+        0xC9: 'PAGEUP',
         0xCB: 'LEFT',
         0xCD: 'RIGHT',
         0xCF: 'END',
         0xD0: 'DOWN',
-        0xD1: 'NEXT',
+        0xD1: 'PAGEDN',
         0xD2: 'INSERT',
         0xD3: 'DELETE',
         0xDB: 'LWIN',
@@ -498,8 +498,8 @@ var KeyCode = {
         20: 0x3A,
         27: 0x01,
         32: 0x39,
-        //PAGE_UP: 33,     // also NUM_NORTH_EAST
-        //PAGE_DOWN: 34,   // also NUM_SOUTH_EAST
+        33: 0xC9,   // also NUM_NORTH_EAST
+        34: 0xD1,   // also NUM_SOUTH_EAST
         35: 0xCF,
         36: 0xC7,
         37: 0xCB,
@@ -1649,13 +1649,13 @@ interface CUInGameAPI {
     // and this is fully set up.
     initialized: boolean;
     OnInitialized(c: () => any): number;
-    CancelOnInitialized(c: number);
+    CancelOnInitialized(c: number): void;
 
     // Everything else only exists after this.initialized is set and the
     // OnInitialized callbacks are invoked.
 
     OnServerConnected(c: () => any): number;
-    CancelOnServerConnected(c: number);
+    CancelOnServerConnected(c: number): void;
     serverTime: number;
     serverURL: string;
 
@@ -1666,10 +1666,10 @@ interface CUInGameAPI {
     Attack(abilityID: string): void;
 
     OnAbilityCooldown(c: (cooldownID: number, timeStarted: number, duration: number) => any): number;
-    CancelOnAbilityCooldown(c: number);
+    CancelOnAbilityCooldown(c: number): void;
 
     OnAbilityActive(c: (currentAbility: string, timeStarted: number, timeTriggered: number, queuedAbility: string) => any): number;
-    CancelOnAbilityActive(c: number);
+    CancelOnAbilityActive(c: number): void;
 
     OnAbilityError(c: (message: string) => any): void;
 
@@ -1679,27 +1679,27 @@ interface CUInGameAPI {
     gearItemIDs: string[];
 
     EquipItem(itemID: string): void;
-    OnItemEquipped(callback: (itemID: string) => any);
+    OnItemEquipped(callback: (itemID: string) => any): void;
 
     UnequipItem(itemID: string): void;
-    OnItemUnequipped(callback: (itemID: string) => any);
+    OnItemUnequipped(callback: (itemID: string) => any): void;
 
     GetItem(itemID: string): void;
-    OnGetItem(callback: (itemID: string, data: string) => any);
+    OnGetItem(callback: (itemID: string, data: string) => any): void;
 
     /* Config */
 
     OnReceiveConfigVars(c: (configs: string) => any): void;
     OnReceiveConfigVar(c: (config: any) => any): void;
     OnConfigVarChanged(c: (isChangeSuccessful: boolean) => any): void;
-    SaveConfigChanges: () => void;
+    SaveConfigChanges(): void;
     OnSavedConfigChanges(c: () => any): void;
-    RestoreConfigDefaults: (tag: Tags) => void;
-    ChangeConfigVar: (variable: string, value: string) => void;
-    CancelChangeConfig: (variable: string) => void;
-    CancelAllConfigChanges: (tag: Tags) => void;
-    GetConfigVars: (tag: Tags) => void;
-    GetConfigVar: (variable: string) => void;
+    RestoreConfigDefaults(tag: Tags): void;
+    ChangeConfigVar(variable: string, value: string): void;
+    CancelChangeConfig(variable: string): void;
+    CancelAllConfigChanges(tag: Tags): void;
+    GetConfigVars(tag: Tags): void;
+    GetConfigVar(variable: string): void;
 
     /* Announcement */
 
@@ -1737,11 +1737,11 @@ interface CUInGameAPI {
 
     OnBeginChat(c: (commandMode: number, text: string) => any): void;
     OnChat(c: (type: number, from: string, body: string, nick: string, iscse: boolean) => any): void;
-    SendChat: (type: number, to: string, body: string) => void;
-    JoinMUC: (room: string) => void;
-    LeaveMUC: (room: string) => void;
-    Stuck: () => void;
-    ChangeZone: (zoneID: number) => void;
+    SendChat(type: number, to: string, body: string): void;
+    JoinMUC(room: string): void;
+    LeaveMUC(room: string): void;
+    Stuck(): void;
+    ChangeZone(zoneID: number): void;
 
     /* Stats */
 
@@ -1761,29 +1761,30 @@ interface CUInGameAPI {
     /* Console */
 
     OnConsoleText(c: (text: string) => any): void;
-    ConsoleCommand: (body: string) => void;
+    ConsoleCommand(body: string): void;
 
     /* Login */
 
     patchResourceChannel: number;
 
-    Connect: (host: string, character: string) => void;
+    Connect(host: string, character: string): void;
 
     /* Shared */
 
-    OpenUI: (name: string) => void;
-    CloseUI: (name: string) => void;
-    HideUI: (name: string) => void;
-    ShowUI: (name: string) => void;
-    ToggleUIVisibility: (name: string) => void;
-    RequestInputOwnership: () => void;
-    ReleaseInputOwnership: () => void;
-    Quit: () => void;
-    CrashTheGame: () => void;
-    OnUpdateNameplate: (c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void) => void;
+    OpenUI(name: string): void;
+    CloseUI(name: string): void;
+    HideUI(name: string): void;
+    ShowUI(name: string): void;
+    ToggleUIVisibility(name: string): void;
+    RequestInputOwnership(): void;
+    ReleaseInputOwnership(): void;
+    Quit(): void;
+    CrashTheGame(): void;
+    OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
 
     /* Other */
-    vsync: number;    
+
+    vsync: number;
 }
 
 declare var cuAPI: CUInGameAPI;
