@@ -1648,13 +1648,13 @@ interface CUInGameAPI {
     // cu.OnInitialized(), which will be called after the page is loaded
     // and this is fully set up.
     initialized: boolean;
-    OnInitialized(c: () => any): number;
+    OnInitialized(c: () => void): number;
     CancelOnInitialized(c: number): void;
 
     // Everything else only exists after this.initialized is set and the
     // OnInitialized callbacks are invoked.
 
-    OnServerConnected(c: () => any): number;
+    OnServerConnected(c: () => void): number;
     CancelOnServerConnected(c: number): void;
     serverTime: number;
     serverURL: string;
@@ -1665,13 +1665,13 @@ interface CUInGameAPI {
 
     Attack(abilityID: string): void;
 
-    OnAbilityCooldown(c: (cooldownID: number, timeStarted: number, duration: number) => any): number;
+    OnAbilityCooldown(c: (cooldownID: number, timeStarted: number, duration: number) => void): number;
     CancelOnAbilityCooldown(c: number): void;
 
     OnAbilityActive(c: (currentAbility: string, timeStarted: number, timeTriggered: number, queuedAbility: string) => any): number;
     CancelOnAbilityActive(c: number): void;
 
-    OnAbilityError(c: (message: string) => any): void;
+    OnAbilityError(c: (message: string) => void): void;
 
     /* Items */
 
@@ -1679,21 +1679,21 @@ interface CUInGameAPI {
     gearItemIDs: string[];
 
     EquipItem(itemID: string): void;
-    OnItemEquipped(callback: (itemID: string) => any): void;
+    OnItemEquipped(callback: (itemID: string) => void): void;
 
     UnequipItem(itemID: string): void;
-    OnItemUnequipped(callback: (itemID: string) => any): void;
+    OnItemUnequipped(callback: (itemID: string) => void): void;
 
     GetItem(itemID: string): void;
-    OnGetItem(callback: (itemID: string, data: string) => any): void;
+    OnGetItem(callback: (itemID: string, data: string) => void): void;
 
     /* Config */
 
-    OnReceiveConfigVars(c: (configs: string) => any): void;
-    OnReceiveConfigVar(c: (config: any) => any): void;
-    OnConfigVarChanged(c: (isChangeSuccessful: boolean) => any): void;
+    OnReceiveConfigVars(c: (configs: string) => void): void;
+    OnReceiveConfigVar(c: (config: any) => void): void;
+    OnConfigVarChanged(c: (isChangeSuccessful: boolean) => void): void;
     SaveConfigChanges(): void;
-    OnSavedConfigChanges(c: () => any): void;
+    OnSavedConfigChanges(c: () => void): void;
     RestoreConfigDefaults(tag: Tags): void;
     ChangeConfigVar(variable: string, value: string): void;
     CancelChangeConfig(variable: string): void;
@@ -1703,7 +1703,7 @@ interface CUInGameAPI {
 
     /* Announcement */
 
-    OnAnnouncement(c: (message: string, type: number) => any): void;
+    OnAnnouncement(c: (message: string, type: number) => void): void;
 
     /* Character */
 
@@ -1735,8 +1735,8 @@ interface CUInGameAPI {
 
     /* Chat */
 
-    OnBeginChat(c: (commandMode: number, text: string) => any): void;
-    OnChat(c: (type: number, from: string, body: string, nick: string, iscse: boolean) => any): void;
+    OnBeginChat(c: (commandMode: number, text: string) => void): void;
+    OnChat(c: (type: number, from: string, body: string, nick: string, iscse: boolean) => void): void;
     SendChat(type: number, to: string, body: string): void;
     JoinMUC(room: string): void;
     LeaveMUC(room: string): void;
@@ -1760,7 +1760,7 @@ interface CUInGameAPI {
 
     /* Console */
 
-    OnConsoleText(c: (text: string) => any): void;
+    OnConsoleText(c: (text: string) => void): void;
     ConsoleCommand(body: string): void;
 
     /* Login */
