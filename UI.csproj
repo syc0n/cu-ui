@@ -245,6 +245,7 @@
     <Content Include="skillbar\skillbar.html" />
     <TypeScriptCompile Include="target\target.ts" />
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
+    <TypeScriptCompile Include="vendor\numeral.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +264,7 @@
     <Content Include="skillbar.ui" />
     <Content Include="target\target.css" />
     <Content Include="target\target.html" />
+    <Content Include="vendor\numeral.js" />
     <Content Include="watermark.ui" />
     <TypeScriptCompile Include="errormessages\errormessages.ts" />
     <Content Include="errormessages.ui" />
