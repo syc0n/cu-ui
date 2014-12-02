@@ -24,7 +24,6 @@ enum Race {
     StormRiderA = 12,
     StormRiderT = 13,
     StormRiderV = 14
-
 }
 
 enum Archetype {
@@ -34,7 +33,6 @@ enum Archetype {
     Fighter = 3,
     Healer = 4,
     MeleeCombatTest = 5
-
 }
 
 class Ability {
