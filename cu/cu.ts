@@ -1671,7 +1671,7 @@ interface CUInGameAPI {
     serverTime: number;
     vsync: number;
 
-    OnServerConnected(c: () => void): number;
+    OnServerConnected(c: (isConnected: boolean) => void): number;
     CancelOnServerConnected(c: number): void;
     OpenUI(name: string): void;
     CloseUI(name: string): void;
@@ -1700,17 +1700,23 @@ interface CUInGameAPI {
 
     /* Items */
 
-    inventoryItemIDs: string[];
-    gearItemIDs: string[];
-
-    EquipItem(itemID: string): void;
-    OnItemEquipped(callback: (itemID: string) => void): void;
-
-    UnequipItem(itemID: string): void;
-    OnItemUnequipped(callback: (itemID: string) => void): void;
-
     GetItem(itemID: string): void;
     OnGetItem(callback: (itemID: string, data: string) => void): void;
+
+    OnItemEquipped(callback: (itemID: string) => void): void;
+    OnItemUnequipped(callback: (itemID: string) => void): void;
+
+    /* Equipped Gear */
+
+    OnEquippedGearItemIDsChanged(callback: (gearItemIDs: string[]) => void): void;
+
+    UnequipItem(itemID: string): void;
+
+    /* Inventory */
+
+    OnInventoryItemIDsChanged(callback: (inventoryItemIDs: string[]) => void): void;
+
+    EquipItem(itemID: string): void;
 
     /* Config */
 
