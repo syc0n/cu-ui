@@ -233,15 +233,12 @@
     <Content Include="images\target\health-bar.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
-    <Content Include="kills\kills.css" />
-    <Content Include="kills\kills.html" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="enemytarget\enemytarget.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="friendlytarget\friendlytarget.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
-    <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
     <TypeScriptCompile Include="login\login.ts" />
@@ -273,7 +270,6 @@
     <Content Include="character.ui" />
     <Content Include="chat.ui" />
     <Content Include="gamemenu.ui" />
-    <Content Include="kills.ui" />
     <Content Include="login.ui" />
     <Content Include="perfhud.ui" />
     <Content Include="skillbar.ui" />
