@@ -1739,8 +1739,8 @@ interface CUInGameAPI {
     race: number;
     hp: number;
     maxHP: number;
-    energy: number;
-    maxEnergy: number;
+    stamina: number;
+    maxStamina: number;
     speed: number;
     selfEffects: string;
     locationX: number;
