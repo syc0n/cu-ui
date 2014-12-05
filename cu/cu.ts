@@ -1789,6 +1789,8 @@ interface CUInGameAPI {
     locationX: number;
     locationY: number;
     locationZ: number;
+    characters: number;
+    terrain: number;
 
     /* Console */
 
