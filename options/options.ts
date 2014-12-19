@@ -12,6 +12,8 @@ module Options {
     var $btnDefaults = $('#btn-defaults');
     var $btnCancel = $('#btn-cancel');
     var $btnSide = $('.btn-side');
+    var $btnX = $('#btn-x');
+    var cancel : any;
 
     cu.OnInitialized(() => {
         cu.GetConfigVars(activeConfigIndex);
@@ -31,10 +33,12 @@ module Options {
         cuAPI.GetConfigVars(activeConfigIndex);
     });
 
-    $btnCancel.click(() => {
+    cancel = () => {
         cuAPI.CancelAllConfigChanges(activeConfigIndex);
         cuAPI.CloseUI('options');
-    });
+    };
+    $btnCancel.click(cancel);
+    $btnX.click(cancel);
 
     $btnKeys.click(() => {
         if (activeConfigIndex == Tags.KEYBIND) return;
@@ -65,10 +69,12 @@ module KeyBindings {
         $item.addClass('binding-item').click(() => {
             $value.text('Press a key');
             $(document).unbind('keyup').on('keyup', e => {
-                $(document).unbind('keyup');
                 var keyCodeValue = KeyCode.getKeyCodeValueFromEvent(e);
-                cu.ChangeConfigVar(item, keyCodeValue.toString());
-                $value.text(KeyCode.dxKeyCodeMap[keyCodeValue]);
+                if (keyCodeValue !== undefined) {
+                    $(document).unbind('keyup');
+                    cu.ChangeConfigVar(item, keyCodeValue.toString());
+                    $value.text(KeyCode.dxKeyCodeMap[keyCodeValue]);
+                }
             });
         }).appendTo($container);
     }
