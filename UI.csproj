@@ -19,9 +19,12 @@
   <ItemGroup>
     <Content Include="announcement\announcement.css" />
     <Content Include="announcement\announcement.html" />
+    <Content Include="building\building.css" />
+    <Content Include="building\building.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
+    <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
@@ -45,6 +48,7 @@
     <Content Include="images\archetypes\watermage.jpg" />
     <Content Include="images\banes\bane.jpg" />
     <Content Include="images\boons\boon.jpg" />
+    <Content Include="images\building\building-btn.jpg" />
     <Content Include="images\character\bg.png" />
     <Content Include="images\character\frame.png" />
     <Content Include="images\character\health-bar.png" />
@@ -288,6 +292,7 @@
     <Content Include="controlgame.ui" />
     <Content Include="enemytarget.ui" />
     <Content Include="friendlytarget.ui" />
+    <Content Include="building.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

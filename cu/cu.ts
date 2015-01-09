@@ -755,6 +755,10 @@ class CU {
                     this.gameClient.OnSavedConfigChanges(() => this.Fire('HandleSavedConfigChanges'));
                 }
 
+                if (_.isFunction(this.gameClient.OnBuildingModeChanged)) {
+                    this.gameClient.OnBuildingModeChanged((buildingMode) => this.Fire('HandleBuildingModeChanged', buildingMode));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -1063,6 +1067,14 @@ class CU {
     public RestoreConfigDefaults(tag): void {
         if (cu.HasAPI()) {
             cuAPI.RestoreConfigDefaults(tag);
+        } else {
+            throw new Error('Not implemented');
+        }
+    }
+
+    public ChangeBuildingMode(): void {
+        if (cu.HasAPI()) {
+            cuAPI.ChangeBuildingMode();
         } else {
             throw new Error('Not implemented');
         }
@@ -1733,6 +1745,10 @@ interface CUInGameAPI {
     GetConfigVars(tag: Tags): void;
     GetConfigVar(variable: string): void;
 
+    /* Building */
+    OnBuildingModeChanged(c: (buildingMode: boolean) => void): void;
+    ChangeBuildingMode(): void;
+
     /* Announcement */
 
     OnAnnouncement(c: (message: string, type: number) => void): void;
@@ -1754,7 +1770,7 @@ interface CUInGameAPI {
     OnEnemyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void;
     OnEnemyTargetEffectsChanged(callback: (effects: string) => void): void;
 
-	/* Friendly Target */
+    /* Friendly Target */
 
     OnFriendlyTargetNameChanged(callback: (name: string) => void): void;
     OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void;
