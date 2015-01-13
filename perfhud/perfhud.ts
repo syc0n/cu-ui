@@ -15,7 +15,7 @@ module PerfHUD {
         if (cu.HasAPI()) {
             $perfHud.empty();
 
-            addToPerfHud((cuAPI.frameTime || 0).toFixed(1) + ' msec per frame');
+            addToPerfHud((cuAPI.frameTime || 0).toFixed(1) + ' msec per frame / ' + (cuAPI.fps || 0).toFixed(1) + ' fps');
 
             addToPerfHud('lag ' + Math.round(cuAPI.netstats_lag || 0) + ' msec');
 
