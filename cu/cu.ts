@@ -1806,7 +1806,7 @@ interface CUInGameAPI {
 
     /* Login */
 
-    Connect(host: string, port: string, character: string): void;
+    Connect(host: string, port: string, character: string, webAPIHost: string): void;
 }
 
 declare var cuAPI: CUInGameAPI;
