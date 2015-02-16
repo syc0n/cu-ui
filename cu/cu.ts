@@ -1824,6 +1824,8 @@ interface CUInGameAPI {
     AbilityCreated(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string, ability: string): void;
     OnAbilityCreated(callback: (abilityID: string, ability: string) => void): void;
 
+    RegisterAbility(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string): void;
+
     /* Stats */
 
     fps: number;
