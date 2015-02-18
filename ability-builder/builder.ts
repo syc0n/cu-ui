@@ -963,6 +963,26 @@ module AbilityBuilder {
         return false;
     }
 
+    var inputOwnershipTimer: number;
+    function handleInputOwnership(e: any) {
+        if (e.type === "focus") {
+            if (inputOwnershipTimer) {
+                console.log('cancel release, keep input ownership for ' + e.target.getAttribute("id"));
+                clearTimeout(inputOwnershipTimer);
+                inputOwnershipTimer = null;
+            } else {
+                console.log('request input ownership for ' + e.target.getAttribute("id"));
+                cuAPI.RequestInputOwnership();
+            }
+        } else {
+            console.log('release input ownership for ' + e.target.getAttribute("id"));
+            inputOwnershipTimer = setTimeout(() => {
+                inputOwnershipTimer = null;
+                cuAPI.ReleaseInputOwnership();
+            }, 10);
+        }
+    }
+
     function initialize() {
         // start hidden
         cuAPI.HideUI('ability-builder');
@@ -987,6 +1007,11 @@ module AbilityBuilder {
         $window.mousedown(handleWindowMouseDown).mouseup(handleWindowMouseUp);
 
         $abilityName.keyup(handleAbilityNameKeyUp);
+
+        $abilityName.focus(handleInputOwnership);
+        $abilityNotes.focus(handleInputOwnership);
+        $abilityName.blur(handleInputOwnership);
+        $abilityNotes.blur(handleInputOwnership);
 
         $btnBuild.click(handleBuildButtonClick);
 
