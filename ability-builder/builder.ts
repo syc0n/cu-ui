@@ -967,15 +967,12 @@ module AbilityBuilder {
     function handleInputOwnership(e: any) {
         if (e.type === "focus") {
             if (inputOwnershipTimer) {
-                console.log('cancel release, keep input ownership for ' + e.target.getAttribute("id"));
                 clearTimeout(inputOwnershipTimer);
                 inputOwnershipTimer = null;
             } else {
-                console.log('request input ownership for ' + e.target.getAttribute("id"));
                 cuAPI.RequestInputOwnership();
             }
         } else {
-            console.log('release input ownership for ' + e.target.getAttribute("id"));
             inputOwnershipTimer = setTimeout(() => {
                 inputOwnershipTimer = null;
                 cuAPI.ReleaseInputOwnership();
