@@ -4,10 +4,11 @@
     "mainFile": "buildactions/buildactions.html",
     "rect": {
         "left": 430,
-        "top": 839,
+        "top": 670,
         "right": 1046,
         "bottom": 900
     },
     "handlesBuilding": true,
+    "handlesConfig": true,
     "handlesInput":  true
 }
