@@ -3,9 +3,9 @@
     "name": "buildactions",
     "mainFile": "buildactions/buildactions.html",
     "rect": {
-        "left": 470,
+        "left": 430,
         "top": 839,
-        "right": 1006,
+        "right": 1046,
         "bottom": 900
     },
     "handlesBuilding": true,

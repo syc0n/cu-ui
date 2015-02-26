@@ -1761,7 +1761,9 @@ class Tooltip {
 
         var title;
 
-        if (_.isFunction(this.options.title)) {
+        if (_.isString(this.options.title)) {
+            title = this.options.title;
+        } else if (_.isFunction(this.options.title)) {
             title = this.options.title();
         } else {
             title = $target.attr('data-tooltip-title');
@@ -1771,7 +1773,9 @@ class Tooltip {
 
         var content;
 
-        if (_.isFunction(this.options.content)) {
+        if (_.isString(this.options.content)) {
+            content = this.options.content;
+        } else if (_.isFunction(this.options.content)) {
             content = this.options.content();
         } else {
             content = $target.attr('data-tooltip-content');
@@ -1803,7 +1807,7 @@ class Tooltip {
 
         var left = offset.left + (this.options.leftOffset || 0);
 
-        var windowWidth = Tooltip.$window.width();
+        var windowWidth = Tooltip.$window.width() - 5;
 
         var containerWidth = Tooltip.$container.outerWidth();
 
