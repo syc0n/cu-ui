@@ -33,6 +33,7 @@ module Login {
         IT = 5, // called InternalTest on /api/servers
         Devs = 6, // called Employees on /api/servers
     }
+    
 
     var servers = [
         { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, vikings: 0, total: 0 } }
@@ -45,6 +46,8 @@ module Login {
     var $serversModalContainer = null;
 
     var serverCharacterRequests = {};
+
+    var defaultAbilities = {};
 
     /* Character Selection Variables */
 
@@ -130,6 +133,24 @@ module Login {
         setTimeout(getServers, 1000 * 60);
     }
 
+    function getDefaultAbilities() {
+        if (getDefaultAbilitiesState === RequestState.InProgress) return null;
+        getDefaultAbilitiesState = RequestState.InProgress;
+
+        var start = new Date();
+
+        return $.ajax({
+            type: 'GET',
+            url: getSelectedServerApiUrl() + '/craftedabilities/defaults'
+        }).done((data) => {
+            getDefaultAbilitiesState = RequestState.Succeeded;
+            defaultAbilities = data;
+            }).fail(() => {
+                getDefaultAbilitiesState = RequestState.Failed;
+                setTimeout(getDefaultAbilities, 5000 - (new Date().getTime() - start.getTime()));
+            });
+    }
+
     function hideModal(callback?) {
         $modal.animate({ 'margin-top': '-80px', 'opacity': 0 }, 200);
 
@@ -174,10 +195,14 @@ module Login {
                 finishConnect(result.address, result.port.toString(), character);
             } else {
                 showModal(createErrorModal('Invalid or missing proxy'));
+
+                showCharacterSelect();
             }
         };
         options.error = (xhr, status, err) => {
             showModal(createErrorModal(err));
+
+            showCharacterSelect();
         };
         $.ajax(options);
     }
@@ -465,7 +490,6 @@ module Login {
                 $characterCreation.fadeIn();
 
                 resetChosenFaction();
-
                 showChooseFactionPage();
             } else {
                 showBackground($bgLoading);
@@ -651,6 +675,18 @@ module Login {
         BoonsBanes = 4
     };
 
+
+    // This enum is using the wrong strings
+    // I'm not changing it for now to avoid breaking other things,
+    // but it should read:
+    /*
+    enum Faction {
+        Factionless = 0,
+        Arthurian = 3,
+        TDD = 1,
+        Viking = 2
+    }; 
+    */
     enum Faction {
         Factionless = 0,
         Arthurians = 3,
@@ -728,6 +764,7 @@ module Login {
     var getAttributesState = RequestState.None;
     var getBoonsState = RequestState.None;
     var getBanesState = RequestState.None;
+    var getDefaultAbilitiesState = RequestState.None;
 
     /* jQuery Elements */
 
@@ -762,7 +799,7 @@ module Login {
     var $chosenArchetypeAbilities = $('#chosen-archetype-abilities', $characterRaceArchetype).hide();
     var $races = $('#races', $chooseRace);
     var $archetypes = $('#archetypes', $chooseArchetype);
-    var $abilities = $('#abilities', $chosenArchetypeAbilities).hide();
+    var $abilities = $('#abilities', $chosenArchetypeAbilities);
 
     var $characterAttributes = $('#character-attributes');
     var $chooseAttributes = $('#choose-attributes', $characterAttributes);
@@ -1182,7 +1219,8 @@ module Login {
 
     function hasAllSuccessfulResponses() {
         return getFactionsState == RequestState.Succeeded && getAttributesState == RequestState.Succeeded &&
-            getBoonsState == RequestState.Succeeded && getBanesState == RequestState.Succeeded;
+            getBoonsState == RequestState.Succeeded && getBanesState == RequestState.Succeeded &&
+            getDefaultAbilitiesState == RequestState.Succeeded;
     }
 
     function tryChooseFaction(factionId) {
@@ -1520,20 +1558,18 @@ module Login {
     }
 
     function resetAbilities() {
-        /*
         $abilities.empty();
 
-        // TODO: get from archetype when abilities are not on race
-        // if (!hasChosenArchetype()) {
-        if (!hasChosenRace()) {
+        if (!hasChosenArchetype()) {
             $abilities.parent().fadeOut();
             return;
         }
-        
-        // TODO: get from archetype when abilities are not on race
-        //var abilities = chosenArchetype.abilities;
-        var abilities = chosenRace.abilities;
 
+        var factionName = cu.GetFactionCssClassName(chosenFaction.value);
+        var archetypeName = Archetype[chosenArchetype.value];
+        archetypeName = archetypeName.charAt(0).toLowerCase() + archetypeName.slice(1);
+        var factionAbilities = defaultAbilities[factionName];
+        var abilities = factionAbilities[archetypeName];
         if (!abilities || !abilities.length) {
             $abilities.parent().fadeOut();
             return;
@@ -1542,7 +1578,7 @@ module Login {
         abilities.forEach(ability => {
             var $li = $('<li>').attr({
                 'data-tooltip-title': ability.name,
-                'data-tooltip-content': ability.tooltip
+                'data-tooltip-content': ability.notes
             }).appendTo($abilities);
 
             new Tooltip($li, { showDelay: 0, hideDelay: 100, topOffset: -25 });
@@ -1551,7 +1587,6 @@ module Login {
         });
 
         $abilities.parent().fadeIn();
-        */
     }
 
     function resetChosenAttributes() {
@@ -2441,7 +2476,7 @@ module Login {
         $characterFaction[currentPage >= Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $characterRaceArchetype[currentPage == Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $chooseArchetype[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
-        //$chosenArchetypeAbilities[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
+        $chosenArchetypeAbilities[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
         $characterRace[currentPage >= Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
         $characterParchment[currentPage >= Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $characterAttributes[currentPage == Page.Attributes ? 'fadeIn' : 'fadeOut']();
@@ -2776,6 +2811,7 @@ module Login {
         getAttributes();
         getBoons();
         getBanes();
+        getDefaultAbilities();
 
         $boonsBanesBars.attr('data-tooltip-content', 'You must choose an equal amount of boons and banes.');
 
