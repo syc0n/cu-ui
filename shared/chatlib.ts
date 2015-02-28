@@ -551,13 +551,17 @@ module ChatLib {
         var jid: JID = new JID(cu.CHAT_DOMAIN);
         jid.EnsureHasDomain();
         cu.CreateWebSocket(loginToken, jid.domain,
-            () => cu.JoinRoomAsCurrentUser(cu.GLOBAL_CHATROOM),
+            () => onWebSocketConnected(),
             () => onConsoleText(''));
     }
 
     export function disconnect() {
         cu.DestroyWebSocket();
     };
+
+    export var onWebSocketConnected = () => {
+        cu.JoinRoomAsCurrentUser(cu.GLOBAL_CHATROOM);
+    }
 
     function onCharacterFactionChanged(newFaction: number) {
         faction = newFaction;
@@ -601,5 +605,6 @@ module ChatLib {
 
         Array.prototype.slice.call(rooms).forEach(createTab);
         selectTab(rooms[0]);
+        this.rooms = rooms;
     }
 }

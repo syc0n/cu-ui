@@ -11,6 +11,10 @@ module CubeChat {
     
     // INITIALIZE!
     function initialize() {
+        ChatLib.onWebSocketConnected = () => {
+            cu.JoinRoomAsCurrentUser(cu.GLOBAL_CHATROOM);
+            cu.JoinRoomAsCurrentUser(cu.CUBE_CHATROOM);
+        }
         ChatLib.initChat([cu.CUBE_CHATROOM_NAME, cu.GLOBAL_CHATROOM_NAME], true);
         ChatLib.connect(cuAPI.loginToken);
     }
