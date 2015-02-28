@@ -7,9 +7,16 @@
 /// <reference path="../vendor/lodash.d.ts" />
 /// <reference path="../vendor/strophe.d.ts" />
 
-module Chat {
+module CubeChat {
+    
+    // INITIALIZE!
+    function initialize() {
+        ChatLib.initChat([cu.CUBE_CHATROOM_NAME, cu.GLOBAL_CHATROOM_NAME], true);
+        ChatLib.connect(cuAPI.loginToken);
+    }
 
+    // START
     cu.OnInitialized(() => {
-        ChatLib.initChat([cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME], false);
+        initialize();
     });
 }
