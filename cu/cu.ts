@@ -1024,6 +1024,8 @@ class CU {
     }
 
     RequestAllAbilities(loginToken, characterID, callback: (a: Ability[]) => any) {
+        if (!loginToken || !characterID) return null;
+
         if (!this.allAbilitiesCallback) {
             this.allAbilitiesCallback = [callback];
             return $.getJSON(cu.SecureApiUrl('api/craftedabilities'), {
