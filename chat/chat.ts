@@ -10,6 +10,7 @@
 module Chat {
 
     cu.OnInitialized(() => {
-        ChatLib.initChat([cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME], false);
+        ChatLib.initChat([cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME], true);
+        ChatLib.connect(cuAPI.loginToken);
     });
 }
