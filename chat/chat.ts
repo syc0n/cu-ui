@@ -9,8 +9,18 @@
 
 module Chat {
 
+    // INITIALIZE!
+    function initialize() {
+        ChatLib.onWebSocketConnected = () => {
+            cu.JoinRoomAsCurrentUser(cu.GLOBAL_CHATROOM);
+            cu.JoinRoomAsCurrentUser(cu.COMBAT_CHATROOM);
+        }
+        ChatLib.initChat([cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME], false);
+        //ChatLib.connect(cuAPI.loginToken);
+    }
+
+    // START
     cu.OnInitialized(() => {
-        ChatLib.initChat([cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME], true);
-        ChatLib.connect(cuAPI.loginToken);
+        initialize();
     });
 }
