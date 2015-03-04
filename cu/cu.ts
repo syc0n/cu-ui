@@ -1752,11 +1752,7 @@ class Tooltip {
             Tooltip.$container = $('<div>').attr('id', 'tooltip').appendTo(document.body);
         }
 
-        if (_.isString(elements)) {
-            $(elements).unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
-        } else if (_.isObject(elements)) {
-            elements.unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
-        }
+        this.bindEvents();
     }
 
     public show(e: JQueryEventObject) {
@@ -1776,7 +1772,7 @@ class Tooltip {
 
         var content;
 
-        if (_.isString(this.options.content)) {
+        if (_.isString(this.options.content) || _.isObject(this.options.content)) {
             content = this.options.content;
         } else if (_.isFunction(this.options.content)) {
             content = this.options.content();
@@ -1827,7 +1823,7 @@ class Tooltip {
         Tooltip.showTimeout = setTimeout(() => Tooltip.$container.stop().fadeIn(200), showDelay);
     }
 
-    public hide() {
+    public hide(e) {
         clearTimeout(Tooltip.showTimeout);
 
         Tooltip.showTimeout = null;
@@ -1845,6 +1841,18 @@ class Tooltip {
         if (this.elements) {
             this.elements.unbind('mouseenter mouseleave');
         }
+    }
+
+    public bindEvents() {
+        if (this.elements) {
+            if (_.isString(this.elements)) {
+                $(this.elements).unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
+            } else if (_.isObject(this.elements)) {
+                this.elements.unbind('mouseenter mouseleave').hover(this.show.bind(this), this.hide.bind(this));
+            }
+        }
+
+        return this;
     }
 }
 
