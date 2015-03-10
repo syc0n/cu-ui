@@ -844,6 +844,10 @@ class CU {
                     this.gameClient.OnReceiveBlocks((buildingDict) => this.Fire('HandleReceiveBlocks', buildingDict));
                 }
 
+                if (_.isFunction(this.gameClient.OnReceiveBlockTags)) {
+                    this.gameClient.OnReceiveBlockTags((blockID, tagDict) => this.Fire('HandleReceiveBlockTags', blockID, tagDict));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -1198,6 +1202,12 @@ class CU {
     public RequestBlocks(): void {
         if (cu.HasAPI()) {
             cuAPI.RequestBlocks();
+        }
+    }
+
+    public RequestBlockTags(blockID): void {
+        if (cu.HasAPI()) {
+            cuAPI.RequestBlockTags(blockID);
         }
     }
 
@@ -1772,15 +1782,20 @@ class Tooltip {
 
         var content;
 
-        if (_.isString(this.options.content) || _.isObject(this.options.content)) {
-            content = this.options.content;
-        } else if (_.isFunction(this.options.content)) {
+        if (_.isFunction(this.options.content)) {
             content = this.options.content();
+        } else if (_.isString(this.options.content) || _.isObject(this.options.content)) {
+            content = this.options.content;
         } else {
             content = $target.attr('data-tooltip-content');
         }
 
+        if (_.isString(content)) {
+            content = content.replace(/(?:\r\n|\r|\n)/g, '<br />');
+        }
+
         var hasContent = !_.isEmpty(content);
+        console.log("HasContent: " + hasContent + " " + content);
 
         if (!hasTitle && !hasContent) return;
 
@@ -1796,7 +1811,7 @@ class Tooltip {
 
         if (hasContent) {
             if (_.isString(content)) {
-                $('<div>').addClass('tooltip-content').text(content).appendTo(Tooltip.$container);
+                $('<div>').addClass('tooltip-content').html(content).appendTo(Tooltip.$container);
             } else {
                 $('<div>').addClass('tooltip-content').appendTo(Tooltip.$container).append(content);
             }
@@ -1949,9 +1964,11 @@ interface CUInGameAPI {
     /* Building */
     OnBuildingModeChanged(c: (buildingMode: boolean) => void): void;
     OnReceiveBlocks(c: (buildingDict: any) => void): void;
+    OnReceiveBlockTags(c: (blockID: number, tagDict: any) => void): void;
     ToggleBuildingMode(): void;
     SetBuildingMode(c: (newMode: number) => void): void;
     RequestBlocks(): void;
+    RequestBlockTags(c: (blockID: number) => void): void;
     ChangeBlockType(c: (newType: number) => void): void;
     CommitBlock(): void;
     CancelBlockPlacement(): void;
