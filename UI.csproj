@@ -144,6 +144,8 @@
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
     <Content Include="images\spellbook\btn-delete.png" />
+    <Content Include="physhud\physhud.css" />
+    <Content Include="physhud\physhud.html" />
     <Content Include="vendor\jquery-ui.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
@@ -430,6 +432,7 @@
     <Content Include="images\window\top-right.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
+    <TypeScriptCompile Include="physhud\physhud.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cubechat\cubechat.ts" />
@@ -512,6 +515,7 @@
     <Content Include="buildactions.ui" />
     <Content Include="bandage.ui" />
     <Content Include="cubechat.ui" />
+    <Content Include="physhud.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

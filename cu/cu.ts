@@ -1922,6 +1922,11 @@ interface CUInGameAPI {
     CrashTheGame(): void;
     OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
 
+    Listen(event: string);
+    Ignore(event: string);
+    Fire(event: string, ...args: any[]): void;
+    OnEvent(callback: (event: string, ...args: any[]) => void): void;
+
     /* Respawn */
     Respawn(id): void;
 
@@ -2064,13 +2069,27 @@ interface CUInGameAPI {
     netstats_players_newBits: number;
     netstats_lag: number;
     particlesRenderedCount: number;
-    speed: number;
-    locationX: number;
-    locationY: number;
-    locationZ: number;
     characters: number;
     terrain: number;
     perfHUD: string;
+
+    /* Physics Debugging */
+
+    locationX: number;
+    locationY: number;
+    locationZ: number;
+    serverLocationX: number;
+    serverLocationY: number;
+    serverLocationZ: number;
+    facing: number;
+    velocityX: number;
+    velocityY: number;
+    velocityZ: number;
+    speed: number;
+    horizontalSpeed: number;
+    velFacing: number;
+    downCollisionAngle: number;
+    terrainCollisionAngle: number;
 
     /* Console */
 
