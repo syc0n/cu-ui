@@ -935,8 +935,20 @@ module Spellbook {
         if (_.isNumber(firstAbilitiesPage) && _.isNumber(lastAbilitiesPage)) {
             $('<li>').addClass('page-label').text('Page').appendTo($ul);
 
-            _.range(firstAbilitiesPage - 1, lastAbilitiesPage).forEach(i => {
-                $('<li>').text(romanize(i)).on('click', evt => turnToPage(evt, i + 1)).appendTo($ul);
+            var currentPage = getCurrentPage() - 1;
+
+            _.range(firstAbilitiesPage - 1, lastAbilitiesPage, 2).forEach(i => {
+                var $li = $('<li>').text(romanize(i)).appendTo($ul);
+
+                if (currentPage !== i && currentPage !== i + 1) {
+                    $li.on('click', evt => {
+                        $li.addClass('current').siblings().removeClass('current');
+
+                        turnToPage(evt, i + 1);
+                    });
+                } else {
+                    $li.addClass('current');
+                }
             });
         }
 
@@ -992,8 +1004,20 @@ module Spellbook {
         if (_.isNumber(firstComponentsPage) && _.isNumber(lastComponentsPage)) {
             $('<li>').addClass('page-label').text('Page').appendTo($ul);
 
-            _.range(firstComponentsPage - 1 - pageModifier, lastComponentsPage - pageModifier).forEach(i => {
-                $('<li>').text(i).on('click', evt => turnToPage(evt, i + 1 + pageModifier)).appendTo($ul);
+            var currentPage = getCurrentPage() - 1;
+
+            _.range(firstComponentsPage - 1 - pageModifier, lastComponentsPage - pageModifier, 2).forEach(i => {
+                var $li = $('<li>').text(i).appendTo($ul);
+
+                if (currentPage !== i + pageModifier && currentPage !== i + pageModifier + 1) {
+                    $li.on('click', evt => {
+                        $li.addClass('current').siblings().removeClass('current');
+
+                        turnToPage(evt, i + 1 + pageModifier);
+                    });
+                } else {
+                    $li.addClass('current');
+                }
             });
         }
 
