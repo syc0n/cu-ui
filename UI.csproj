@@ -147,6 +147,7 @@
     <Content Include="physhud\physhud.css" />
     <Content Include="physhud\physhud.html" />
     <Content Include="vendor\jquery-ui.min.js" />
+    <Content Include="vendor\soundjs-0.6.0.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
     <TypeScriptCompile Include="ability-training\network1.ts" />
@@ -465,6 +466,7 @@
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
     <TypeScriptCompile Include="vendor\numeral.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
+    <TypeScriptCompile Include="vendor\soundjs.d.ts" />
     <TypeScriptCompile Include="vendor\turn.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -516,6 +518,17 @@
     <Content Include="bandage.ui" />
     <Content Include="cubechat.ui" />
     <Content Include="physhud.ui" />
+    <Content Include="audio\spellbook\UI_SpellBook_Open.ogg" />
+    <Content Include="audio\spellbook\UI_SpellBook_PageFlip_Backward.ogg" />
+    <Content Include="audio\spellbook\UI_SpellBook_PageFlip_Forward.ogg" />
+    <Content Include="audio\spellbook\UI_SpellBook_Putaway.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_AddSelection_v1_01.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_01.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_02.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_03.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_04.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_05.ogg" />
+    <Content Include="audio\ability-builder\UI_AbilityCrafting_SidePanel_Open_v1_01.ogg" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

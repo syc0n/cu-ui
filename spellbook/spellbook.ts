@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../vendor/soundjs.d.ts" />
 
 module Spellbook {
     /* Constants */
@@ -51,6 +52,26 @@ module Spellbook {
     var hideComponentPagesTimeout = null;
     var isShowingAbilityPagesModal = false;
     var isShowingComponentPagesModal = false;
+
+    var lastVisitedPage = 2;
+
+    /* Audio */
+    var soundOpenSpellbookID = "UI_SpellBook_Open";
+    var soundCloseSpellbookID = "UI_SpellBook_Putaway";
+    var soundPageFlipForwardID = "UI_SpellBook_PageFlip_Forward";
+    var soundPageFlipBackID = "UI_SpellBook_PageFlip_Backward";
+
+
+    function loadSound() {
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Open.ogg", soundOpenSpellbookID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Putaway.ogg", soundCloseSpellbookID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Forward.ogg", soundPageFlipForwardID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Backward.ogg", soundPageFlipBackID);
+    }
+
+    function playSound(soundID: string) {
+        createjs.Sound.play(soundID);
+    }
 
     /* Functions */
 
@@ -921,7 +942,6 @@ module Spellbook {
 
         $btnAbilities.addClass('hovered');
         $abilityPagesModal.stop().fadeIn();
-
         return false;
     }
 
@@ -1052,6 +1072,7 @@ module Spellbook {
             }
         });
 
+        playSound(soundCloseSpellbookID);
         return false;
     }
 
@@ -1159,6 +1180,13 @@ module Spellbook {
 
                 turning: (event, page) => {
                     if (page == 1) event.preventDefault();
+
+                    if (page > lastVisitedPage) {
+                        playSound(soundPageFlipForwardID);
+                    } else if (page < lastVisitedPage) {
+                        playSound(soundPageFlipBackID);
+                    }
+                    lastVisitedPage = page;
 
                     updateSelectedButton(page);
                 },
@@ -1332,6 +1360,10 @@ module Spellbook {
     }
 
     function initialize() {
+
+        // Load sounds
+        loadSound();
+
         $(document).click(hideSearch);
 
         $document.on('contextmenu', ignoreEvent);
