@@ -1428,7 +1428,7 @@ module Spellbook {
 
                 cuAPI.OnCharacterIDChanged(id => {
                     characterID = id;
-                    alert('loading abilities and components');
+
                     var abilitiesPromise = loadAbilities();
 
                     abilitiesPromise.fail(() => {
