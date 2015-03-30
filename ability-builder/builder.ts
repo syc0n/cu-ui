@@ -9,7 +9,7 @@
 module AbilityBuilder {
     /* Constants */
 
-    var ABILITY_ICONS = [
+     var ABILITY_ICONS = [
         'default.jpg',
         'cast-b.jpg',
         'cast-g.jpg',
@@ -86,7 +86,7 @@ module AbilityBuilder {
     var $window = $(window);
     var $document = $(document);
     var $btnClose = $('.window-close');
-    var $builder = $('#builder');
+    export var $builder = $('#builder');
     var $abilityName = $('#ability-name');
     var $abilityNotes = $('#ability-notes');
     var $stats = $('#stats');
@@ -740,7 +740,7 @@ module AbilityBuilder {
 
         if (icon && icon.length) {
             setSelectIcon(icon);
-
+            cuAPI.Fire("iconselect");
             $abilityIconRequired.hide();
         } else {
             $abilityIconRequired.fadeIn();
@@ -907,6 +907,19 @@ module AbilityBuilder {
             $network.removeClass('error');
 
             $abilityComponentsRequired.hide();
+        }
+
+        if (component) {
+            console.log("FIRE: chosen something");
+
+            if (component.type === ComponentType.Primary) {
+                console.log("FIRE: primary chosen");
+                cuAPI.Fire("primarychosen");
+
+            } else if (component.type === ComponentType.Secondary) {
+                console.log("FIRE: Secondary chosen");
+                cuAPI.Fire("secondarychosen");
+            }
         }
 
         return false;
@@ -1452,6 +1465,10 @@ module AbilityBuilder {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                if (typeof builderTourInitialize === 'function') {
+                    builderTourInitialize();
+                }
+
                 // start hidden
                 cuAPI.HideUI('ability-builder');
                 $builder.hide();

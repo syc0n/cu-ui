@@ -139,13 +139,38 @@
     <Content Include="images\minimap\player.png" />
     <Content Include="images\minimap\zone.png" />
     <Content Include="images\skills\bandage.png" />
+    <Content Include="images\skills\cast-b.jpg" />
+    <Content Include="images\skills\cast-g.jpg" />
+    <Content Include="images\skills\cast-p.jpg" />
+    <Content Include="images\skills\cast-r.jpg" />
+    <Content Include="images\skills\charging-b.jpg" />
+    <Content Include="images\skills\charging-g.jpg" />
+    <Content Include="images\skills\charging-p.jpg" />
+    <Content Include="images\skills\charging-r.jpg" />
+    <Content Include="images\skills\doom-swirl.jpg" />
     <Content Include="images\skills\earth-Cone.jpg" />
+    <Content Include="images\skills\eclipse.jpg" />
+    <Content Include="images\skills\energy-sword.jpg" />
     <Content Include="images\skills\fire-Cone.jpg" />
+    <Content Include="images\skills\hammer-smash.jpg" />
+    <Content Include="images\skills\kameha.jpg" />
+    <Content Include="images\skills\lightning-mace.jpg" />
+    <Content Include="images\skills\shout-lead.jpg" />
+    <Content Include="images\skills\shout-p.jpg" />
+    <Content Include="images\skills\shower.jpg" />
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
     <Content Include="images\spellbook\btn-delete.png" />
     <Content Include="physhud\physhud.css" />
     <Content Include="physhud\physhud.html" />
+    <Content Include="images\tour\arrow.png" />
+    <Content Include="images\tour\body-bg.png" />
+    <Content Include="images\tour\duckguide.png" />
+    <Content Include="tour\tour.css" />
+    <Content Include="tour\tour.html" />
+    <Content Include="vendor\hopscotch.css" />
+    <Content Include="vendor\hopscotch.js" />
+    <Content Include="vendor\hopscotch.min.js" />
     <Content Include="vendor\jquery-ui.min.js" />
     <Content Include="vendor\soundjs-0.6.0.min.js" />
     <Content Include="vendor\turn.js" />
@@ -462,6 +487,11 @@
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
     <TypeScriptCompile Include="target\target.ts" />
+    <TypeScriptCompile Include="tour\spellbooktour.ts" />
+    <TypeScriptCompile Include="tour\buildertour.ts" />
+    <TypeScriptCompile Include="tour\logintour.ts" />
+    <TypeScriptCompile Include="tour\tour.ts" />
+    <TypeScriptCompile Include="vendor\hopscotch.d.ts" />
     <TypeScriptCompile Include="vendor\jquery-ui.d.ts" />
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
     <TypeScriptCompile Include="vendor\numeral.d.ts" />
@@ -529,6 +559,7 @@
     <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_04.ogg" />
     <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_05.ogg" />
     <Content Include="audio\ability-builder\UI_AbilityCrafting_SidePanel_Open_v1_01.ogg" />
+    <Content Include="tour.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -542,6 +573,9 @@
     <Content Include="watermark\watermark.css" />
     <Content Include="watermark\watermark.html" />
     <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
@@ -584,4 +618,9 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
 </Project>

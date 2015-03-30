@@ -7,7 +7,7 @@
 
 module Spellbook {
     /* Constants */
-
+    
     var ABILITIES_PER_PAGE = 7;
     var COMPONENTS_PER_PAGE = 7;
     var SEARCH_DELAY = 100;
@@ -16,15 +16,15 @@ module Spellbook {
     /* jQuery Elements */
 
     var $document = $(document);
-    var $spellbook = $('#spellbook');
+    export var $spellbook = $('#spellbook');
     var $btnAbilities = $('#btn-abilities');
     var $abilityPagesModal = $('#ability-pages-modal');
     var $btnComponents = $('#btn-components');
     var $componentPagesModal = $('#component-pages-modal');
     var $btnSearch = $('#btn-search');
-    // var $btnHelp = $('#btn-help');
+    export var $btnHelp = $('#btn-help');
     var $btnClose = $('#btn-close');
-    var $pages = $('#pages');
+    export var $pages = $('#pages');
     var $searchModal = $('#search-modal');
     var $search = $('#search');
     var $errorModal = $('#error-modal');
@@ -1412,6 +1412,10 @@ module Spellbook {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                if (typeof spellBookInitialize === 'function') {
+                    spellBookInitialize();
+                }
+
                 // start hidden
                 cuAPI.HideUI('spellbook');
                 $spellbook.hide();
@@ -1424,7 +1428,7 @@ module Spellbook {
 
                 cuAPI.OnCharacterIDChanged(id => {
                     characterID = id;
-
+                    alert('loading abilities and components');
                     var abilitiesPromise = loadAbilities();
 
                     abilitiesPromise.fail(() => {
