@@ -33,6 +33,8 @@ module Respawn {
                 temp.addClass('canselect');
                 temp.off('click', bindClicks);
                 temp.on('click', bindClicks);
+            } else {
+                temp.addClass("wrongfaction");
             }
         });
         // Draw my position
