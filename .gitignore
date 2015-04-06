@@ -9,3 +9,4 @@ node_modules/
 .tscache/
 !GruntFile.js
 !/vendor/*.js
+UI.csproj.user
