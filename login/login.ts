@@ -79,9 +79,18 @@ module Login {
 
     $nextCharacterButton.click(() => selectCharacter(getNextCharacter()));
 
-    $serversButton.click(showServerSelection);
+    
+    $serversButton.click(() => {
+        //Audio - play generic click
+        //this happens when you click to go back to the server selection
+        playGenericButtonClick();
+        showServerSelection();
+    });
 
     $deleteButton.click(() => {
+        //Audio - play generic select sound here. Delete button was clicked. 
+        playGenericButtonClick();
+
         var deleteModal = createDeleteModal();
 
         if (!deleteModal) return;
@@ -89,18 +98,24 @@ module Login {
         showModal(deleteModal);
     });
 
-    $createNewButton.click(showCharacterCreationPage);
+    //Audio - play create new character sound in click()
+    $createNewButton.click(() => {
+        showCharacterCreationPage();
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CREATENEWCHARACTER);
+    });
 
     $startButton.click(() => {
         var character = {
             id: $selectedCharacter.data('character-id'),
             name: $selectedCharacter.data('character-name')
         };
+        //TODO: move complete login music event here. ask JB where it is. 
+        //Audio - start button was clicked. log in to game now. 
         $characterSelection.fadeOut(() => beginConnect(character));
     });
 
     /* Both Character Selection and Character Creation Functions */
-
+    var toggle = false;
     function initialize() {
         // Required for cross-site ajax to work on IE
         $.support.cors = true;
@@ -116,6 +131,11 @@ module Login {
 
             getServers();
         }, 100);
+    }
+
+    //Audio
+    function playGenericButtonClick() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_GENERICSELECT);
     }
 
     function getServers() {
@@ -245,6 +265,7 @@ module Login {
     /* Server Selection Functions */
 
     function showServerSelection() {
+        //Audio -- this is the earliest event location. play ambient stuff here. server select menu shown here
         selectedServer = null;
         hopscotch.startTour(tour, 1);
         $characterSelection.fadeOut(() => {
@@ -466,9 +487,13 @@ module Login {
         hasInitializedCharacterCreation = false;
 
         hideModal(showCharacterSelectionOrCreation);
+
+        //Audio - play server select sound after server select success
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SERVERSELECT);
     }
 
     function showCharacterSelectionOrCreation() {
+        //Audio - show character selection or creation here. Just like the function says!
         if (selectedServer && selectedServer.characters && selectedServer.characters.length) {
             showCharacterSelect();
             $('.hopscotch-bubble').css({ 'display': 'none', 'visibility': 'hidden' });
@@ -500,6 +525,9 @@ module Login {
                 showBackground($bgLoading);
             }
         }, 100);
+
+        //Audio - play character new creation sound as new page pops up
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CREATENEWCHARACTER);
     }
 
     function showCharacterSelect() {
@@ -569,6 +597,8 @@ module Login {
     }
 
     function getPreviousCharacter() {
+        //Audio - play character change swipe sound here
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CHARACTERSELECT_CHANGE);
         var $previous = $selectedCharacter.prev();
         if (!$previous.length) {
             $previous = $selectedCharacter.siblings().last();
@@ -577,6 +607,8 @@ module Login {
     }
 
     function getNextCharacter() {
+         //Audio - play character change swipe sound here
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CHARACTERSELECT_CHANGE);
         var $next = $selectedCharacter.next();
         if (!$next.length) {
             $next = $selectedCharacter.siblings().first();
@@ -640,11 +672,18 @@ module Login {
                 hideModal(() => showModal(createErrorModal(error)));
             };
             $.ajax(options);
+            //Audio - play yes delete button click down here in case of errors and it doesn't actually delete
+            playGenericButtonClick();
         });
 
         var $noButton = $('<button class="btn-normal btn-no">No</button>').appendTo($buttons);
 
-        $noButton.click(hideModal);
+        //Audio - 'no' button click sound needs to get played
+        $noButton.click(() => {
+            hideModal();
+            playGenericButtonClick();
+        });
+        //$noButton.click(hideModal);
 
         return $container;
     }
@@ -1254,6 +1293,8 @@ module Login {
             resetChosenBanes();
         }
 
+        //Audio - play realm select sound here
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SELECTREALM);
         showChooseRaceArchetypePage();
     }
 
@@ -1262,6 +1303,9 @@ module Login {
     }
 
     function setChosenRace() {
+        //Audio - play generic select here. player just clicked on race type
+        playGenericButtonClick();
+
         chosenRace = chosenFaction.races[$('input:radio[name=race]:checked').val()];
 
         // TODO: begin - remove later when choosing archetypes is allowed
@@ -1297,6 +1341,8 @@ module Login {
     // TODO: end - remove this function later when choosing archetypes is allowed
 
     function setChosenArchetype() {
+        //Audio - play generic select here. player just clicked on an archetype
+        playGenericButtonClick();
         chosenArchetype = chosenFaction.archetypes[$('input:radio[name=archetype]:checked').val()];
 
         chosenRace = chosenFaction.races[$('input:radio[name=race]:checked').val()];
@@ -1346,6 +1392,8 @@ module Login {
     // TODO: end - remove this function later when choosing archetypes is allowed
 
     function setChosenAttributes() {
+        //Audio - the player clicked on a plus or minues to add attributes
+        playGenericButtonClick();
         chosenAttributes = getCurrentAttributes();
     }
 
@@ -1595,6 +1643,9 @@ module Login {
     }
 
     function resetChosenAttributes() {
+        //Audio - player clicked on the reset button while assigning attributes
+        //playGenericButtonClick();
+        //TODO: attach this to a button.click instead
         chosenAttributes = undefined;
 
         $attributes.empty();
@@ -1731,6 +1782,9 @@ module Login {
         resetChosenBoonsFaction();
         resetChosenBoonsRace();
         resetChosenBoonsArchetype();
+        //Audio - player clicked the reset boons banes button. 
+        //play audio after reset down here, resetChosenBoons called even if none set. only need sound to play once. 
+        //playGenericButtonClick();
     }
 
     function resetChosenBanesGeneral() {
@@ -1764,6 +1818,9 @@ module Login {
         resetChosenBanesFaction();
         resetChosenBanesRace();
         resetChosenBanesArchetype();
+        //Audio - player clicked the reset boons banes button. 
+        //play audio after reset, play sound event called 2x. Voice limit in Wwise enforces only one sound
+        //playGenericButtonClick();
     }
 
     function createBoonBaneTooltipContent(boonBane) {
@@ -1840,6 +1897,13 @@ module Login {
                 $ranks.text(ranks + ' / ' + boonBane.maxRanks);
 
                 $chooseBoonsAndBanes.submit();
+
+                //Audio - play click boon or bane events
+                if (isBoon) {
+                    cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BOONSELECT);
+                } else {
+                    cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BANESELECT);
+                }
             }
 
             $li.toggleClass('active', ranks >= 1);
@@ -2795,8 +2859,10 @@ module Login {
         getBanesState = RequestState.None;
 
         $shieldArthurians.unbind('mouseenter mouseleave').hover(() => {
+            //Audio - this part brings up the realm preview once you hover over the realm
             changeFaction(Faction.Arthurians);
         }, () => {
+            //Audio - need to play no realm selected at all event right before resetChosenFaction 
                 if (!hasChosenFaction()) resetChosenFaction();
             }).click(() => {
                 tryChooseFaction(Faction.Arthurians);
@@ -2944,14 +3010,22 @@ module Login {
                         resetChosenRace();
                         resetChosenArchetype();
                         resetAbilities();
+                        //Audio
+                        playGenericButtonClick();
                     }
                     break;
                 case Page.Attributes:
-                    if (hasChosenAttributes()) resetChosenAttributes();
+                    if (hasChosenAttributes()) {
+                        resetChosenAttributes();
+                        //Audio
+                        playGenericButtonClick();
+                    }
                     break;
                 case Page.BoonsBanes:
                     if (hasChosenBoons()) resetChosenBoons();
                     if (hasChosenBanes()) resetChosenBanes();
+                    //Audio
+                    playGenericButtonClick();
                     break;
             }
 
@@ -2961,9 +3035,14 @@ module Login {
         $characterNext.unbind('submit').submit(() => {
             switch (currentPage) {
                 case Page.RaceArchetype:
+                    //Audio - player just clicked on next. going to attribute selection page now 1/3 completition
+                    playGenericButtonClick();
                     showChooseAttributesPage();
                     break;
                 case Page.Attributes:
+                    //Audio - player just clicked on next. going to boon bane page now 2/3 completition
+                    //note this doesn't play when getting to the boons and banes page by clicking on the icon up top
+                    playGenericButtonClick();
                     showChooseBoonsBanesPage();
                     break;
             }
@@ -3104,6 +3183,7 @@ module Login {
                 });
             }
         });
+
     }
 
     /* End Character Creation */
