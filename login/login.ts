@@ -51,6 +51,9 @@ module Login {
 
     var defaultAbilities = {};
 
+    var bMusicHasStarted = false; //simple audio check to make sure the main menu music doesn't stack. 
+                                   // for many reasons it's easier to do this here than in Wwise.
+
     /* Character Selection Variables */
 
     var $characterSelection = $('#character-selection');
@@ -98,10 +101,10 @@ module Login {
         showModal(deleteModal);
     });
 
-    //Audio - play create new character sound in click()
+    //Audio - play create new character sound
     $createNewButton.click(() => {
+        playCreateNewCharacter();
         showCharacterCreationPage();
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CREATENEWCHARACTER);
     });
 
     $startButton.click(() => {
@@ -109,8 +112,9 @@ module Login {
             id: $selectedCharacter.data('character-id'),
             name: $selectedCharacter.data('character-name')
         };
-        //TODO: move complete login music event here. ask JB where it is. 
         //Audio - start button was clicked. log in to game now. 
+        playGenericConfirmClick();
+        playStateChangeBeginLogin();
         $characterSelection.fadeOut(() => beginConnect(character));
     });
 
@@ -133,10 +137,81 @@ module Login {
         }, 100);
     }
 
-    //Audio
-    function playGenericButtonClick() {
+    //Audio Functions
+    function playGenericButtonClick() { //generic click sound used lots of places
         cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_GENERICSELECT);
     }
+
+    function playCharacterChangeSound() { //sound for when you click next/previous character and the cards change
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CHARACTERSELECT_CHANGE);
+    }
+
+    function playServerSelectMenu() { //earliest and first event for sound. right at start up. main menu
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_SERVERSELECT);
+        if (!bMusicHasStarted){ //this event can only play once
+            cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_MAINMENU);
+            bMusicHasStarted = true;
+        }           
+    }
+
+    function playServerSelectConfirmed() { //this is the actual sound effect for clicking on the server choice
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SERVERSELECT);
+    }
+
+    function playGenericConfirmClick() { //a generic positive sounding click
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_GENERALCONFIRM);
+    }
+
+    function playCreateNewCharacter() { //a special sfx for going into the create new character menu
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CREATENEWCHARACTER);
+    }
+
+    function playRealmSelect() { //a special sfx for when you pick which realm you want and then state change for the next menu
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SELECTREALM);
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_RACE);
+    }
+
+    function playStateChangeAttributes() { //state change for getting to the attributes page
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_ATTRIBUTES);
+    }
+
+    function playStateChangeBoonsAndBanes() { //state change for moving along to the boons/banes page
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_BOONSANDBANES);
+    }
+
+    function playStateChangePreviewArthurians() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_PREVIEW_ARTHURIAN); //music
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_PREVIEWREALM_ARTHURIAN); //sfx
+    }
+
+    function playStateChangePreviewTDD() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_PREVIEW_TDD); //music
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_PREVIEWREALM_TDD); //sfx
+    }
+
+    function playStateChangePreviewVikings() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_PREVIEW_VIKING); //music
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_PREVIEWREALM_VIKING); //sfx
+    }
+
+    function playStateChangeRealmReset() { //when you leave the mouseover portion of the shield UI
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.SET_STATE_CHARACTERCREATION_SERVERSELECT); //music
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.STOP_UI_MENU_PREVIEWREALM); //stops any of the ambient sfx
+    }
+
+    function playBoonSelect() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BOONSELECT);
+    }
+
+    function playBaneSelect() {
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BANESELECT);
+    }
+
+    function playStateChangeBeginLogin() { //when you finish character creation or click start to login
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.STOP_UI_MENU_PREVIEWREALM); //stops any of the ambient sfx
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_LOADINGSCREEN); //JB has the same event elsewhere but won't hurt
+    }
+    //end Audio Functions
 
     function getServers() {
         resetServerTimeouts();
@@ -266,6 +341,7 @@ module Login {
 
     function showServerSelection() {
         //Audio -- this is the earliest event location. play ambient stuff here. server select menu shown here
+        playServerSelectMenu();
         selectedServer = null;
         hopscotch.startTour(tour, 1);
         $characterSelection.fadeOut(() => {
@@ -400,6 +476,9 @@ module Login {
     function trySelectServer(server) {
         if (!server.isOnline) return;
 
+        //Audio -- play server selected sound
+        playServerSelectConfirmed();
+
         var request = tryFetchCharacters(server);
 
         if (!request) return;
@@ -489,7 +568,7 @@ module Login {
         hideModal(showCharacterSelectionOrCreation);
 
         //Audio - play server select sound after server select success
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SERVERSELECT);
+        
     }
 
     function showCharacterSelectionOrCreation() {
@@ -507,6 +586,9 @@ module Login {
     /* Character Selection Functions */
 
     function showCharacterCreationPage() {
+        //Audio - play character new creation sound as new page pops up
+        playCreateNewCharacter();
+
         initializeCharacterCreation();
 
         $characterSelection.fadeOut();
@@ -525,9 +607,6 @@ module Login {
                 showBackground($bgLoading);
             }
         }, 100);
-
-        //Audio - play character new creation sound as new page pops up
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CREATENEWCHARACTER);
     }
 
     function showCharacterSelect() {
@@ -576,6 +655,8 @@ module Login {
         }
 
         $characterSelection.fadeIn();
+        //Audio - clean up music or ambiences since we are back at the character select screen
+        playStateChangeRealmReset();
     }
 
     function getRaceCssClass(race) {
@@ -598,7 +679,7 @@ module Login {
 
     function getPreviousCharacter() {
         //Audio - play character change swipe sound here
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CHARACTERSELECT_CHANGE);
+        playCharacterChangeSound();
         var $previous = $selectedCharacter.prev();
         if (!$previous.length) {
             $previous = $selectedCharacter.siblings().last();
@@ -608,7 +689,7 @@ module Login {
 
     function getNextCharacter() {
          //Audio - play character change swipe sound here
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_CHARACTERSELECT_CHANGE);
+        playCharacterChangeSound();
         var $next = $selectedCharacter.next();
         if (!$next.length) {
             $next = $selectedCharacter.siblings().first();
@@ -1284,6 +1365,7 @@ module Login {
         if (chosenFactionId !== factionId) {
             chosenFactionId = factionId;
             chosenFaction = getFaction(factionId);
+            //Audio - do a check for realm specific character creation music here
 
             resetChosenRace();
             resetChosenArchetype();
@@ -1294,7 +1376,7 @@ module Login {
         }
 
         //Audio - play realm select sound here
-        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_SELECTREALM);
+        playRealmSelect();
         showChooseRaceArchetypePage();
     }
 
@@ -1645,7 +1727,7 @@ module Login {
     function resetChosenAttributes() {
         //Audio - player clicked on the reset button while assigning attributes
         //playGenericButtonClick();
-        //TODO: attach this to a button.click instead
+        //TODO: attach this sound to a button.click instead
         chosenAttributes = undefined;
 
         $attributes.empty();
@@ -1900,9 +1982,10 @@ module Login {
 
                 //Audio - play click boon or bane events
                 if (isBoon) {
-                    cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BOONSELECT);
+                    playBoonSelect();
+                    
                 } else {
-                    cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_BANESELECT);
+                    playBaneSelect();
                 }
             }
 
@@ -2826,6 +2909,8 @@ module Login {
         currentPage = Page.Attributes;
 
         updateView();
+        //Audio
+        playStateChangeAttributes();
     }
 
     function showChooseBoonsBanesPage() {
@@ -2836,6 +2921,8 @@ module Login {
         currentPage = Page.BoonsBanes;
 
         updateView();
+        //Audio
+        playStateChangeBoonsAndBanes();
     }
 
     /* Character Creation Events */
@@ -2859,27 +2946,39 @@ module Login {
         getBanesState = RequestState.None;
 
         $shieldArthurians.unbind('mouseenter mouseleave').hover(() => {
-            //Audio - this part brings up the realm preview once you hover over the realm
             changeFaction(Faction.Arthurians);
+            //Audio - this part brings up the realm preview once you hover over the realm
+            playStateChangePreviewArthurians();
         }, () => {
-            //Audio - need to play no realm selected at all event right before resetChosenFaction 
-                if (!hasChosenFaction()) resetChosenFaction();
+            //Audio - need to play no realm selected event right before resetChosenFaction 
+            if (!hasChosenFaction()) {
+                resetChosenFaction();
+                playStateChangeRealmReset();
+            }
             }).click(() => {
                 tryChooseFaction(Faction.Arthurians);
             });
 
         $shieldTdd.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.TDD);
+            playStateChangePreviewTDD();
         }, () => {
-                if (!hasChosenFaction()) resetChosenFaction();
+            if (!hasChosenFaction()) {
+                resetChosenFaction();
+                playStateChangeRealmReset();
+            }
             }).click(() => {
                 tryChooseFaction(Faction.TDD);
             });
 
         $shieldVikings.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.Vikings);
+            playStateChangePreviewVikings();
         }, () => {
-                if (!hasChosenFaction()) resetChosenFaction();
+            if (!hasChosenFaction()) {
+                resetChosenFaction();
+                playStateChangeRealmReset();
+            }
             }).click(() => {
                 tryChooseFaction(Faction.Vikings);
             });
@@ -3036,12 +3135,14 @@ module Login {
             switch (currentPage) {
                 case Page.RaceArchetype:
                     //Audio - player just clicked on next. going to attribute selection page now 1/3 completition
+                    //playStateChangeAttributes();
                     playGenericButtonClick();
                     showChooseAttributesPage();
                     break;
                 case Page.Attributes:
                     //Audio - player just clicked on next. going to boon bane page now 2/3 completition
                     //note this doesn't play when getting to the boons and banes page by clicking on the icon up top
+                    //playStateChangeBoonsAndBanes();
                     playGenericButtonClick();
                     showChooseBoonsBanesPage();
                     break;
@@ -3053,6 +3154,9 @@ module Login {
         $characterComplete.unbind('click submit').click(() => {
             if (!hasChosenName()) {
                 flashCharacterName();
+            } else { //Audio events here
+                playGenericConfirmClick();
+                playStateChangeBeginLogin();
             }
         }).submit(() => {
                 if (!isValid()) return false;
