@@ -144,6 +144,7 @@
     <Content Include="images\minimap\player-dead.png" />
     <Content Include="images\minimap\player.png" />
     <Content Include="images\minimap\zone.png" />
+    <Content Include="images\reticle\circle-reticle.png" />
     <Content Include="images\screenshotbutton\building-camera-icon.png" />
     <Content Include="images\skills\bandage.png" />
     <Content Include="images\skills\cast-b.jpg" />
@@ -173,6 +174,8 @@
     <Content Include="images\tour\arrow.png" />
     <Content Include="images\tour\body-bg.png" />
     <Content Include="images\tour\duckguide.png" />
+    <Content Include="reticle\reticle.css" />
+    <Content Include="reticle\reticle.html" />
     <Content Include="tour\tour.css" />
     <Content Include="tour\tour.html" />
     <Content Include="vendor\hopscotch.css" />
@@ -575,6 +578,7 @@
     <Content Include="screenshotbutton.ui" />
     <Content Include="screenshotshare.ui" />
     <Content Include="cubewatermark.ui" />
+    <Content Include="reticle.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
