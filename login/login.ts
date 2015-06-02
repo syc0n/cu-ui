@@ -858,6 +858,7 @@ module Login {
     var chosenFaction;
     var chosenName;
     var chosenRace;
+    var chosenGender;
     var chosenArchetype;
     var chosenAttributes;
     var chosenBoonsGeneral;
@@ -920,9 +921,13 @@ module Login {
 
     var $characterRaceArchetype = $('#character-race-archetype');
     var $chooseRace = $('#choose-race', $characterRaceArchetype);
+    var $chooseGender = $('#choose-gender', $characterRaceArchetype);
+
     var $chooseArchetype = $('#choose-archetype', $characterRaceArchetype);
     var $chosenArchetypeAbilities = $('#chosen-archetype-abilities', $characterRaceArchetype).hide();
+
     var $races = $('#races', $chooseRace);
+    var $genders = $('#genders', $chooseGender);
     var $archetypes = $('#archetypes', $chooseArchetype);
     var $abilities = $('#abilities', $chosenArchetypeAbilities);
 
@@ -1368,6 +1373,7 @@ module Login {
             //Audio - do a check for realm specific character creation music here
 
             resetChosenRace();
+            resetChosenGender();
             resetChosenArchetype();
             resetAbilities();
             resetChosenAttributes();
@@ -1395,6 +1401,9 @@ module Login {
         var archetypeIndex = getArchetypeIndexForChosenRace();
         chosenArchetype = chosenFaction.archetypes[archetypeIndex];
 
+        // SET gender
+        resetChosenGender();
+
         $('input:radio[name=archetype]').prop('checked', false);
         $('input:radio[name=archetype][value=' + archetypeIndex + ']').prop('checked', true);
 
@@ -1414,7 +1423,7 @@ module Login {
             case Race.Strm: return 0; // Strm = Fire Mage
             case Race.CaitSith: return 1; // Cait Sith = Fighter
             case Race.Golem: return 2; // Golem = Healer
-            case Race.StormRiderA: return 3; // StormRiderA = MeleeCombatTest
+            case Race.StormRider: return 3; // StormRider = MeleeCombatTest
             case Race.StormRiderT: return 3; // StormRiderT = MeleeCombatTest
             case Race.StormRiderV: return 3; // StormRiderV = MeleeCombatTest
         }
@@ -1449,7 +1458,7 @@ module Login {
                     case Archetype.FireMage: return 0; // Fire Mage = Strm
                     case Archetype.Fighter: return 1; // Fighter = Cait Sith
                     case Archetype.Healer: return 2; // Healer = Golem
-                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderA
+                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRider
                 }
                 break;
             case Faction.TDD:
@@ -1616,6 +1625,10 @@ module Login {
         return '../images/races/' + race.name.toLowerCase() + '.jpg';
     }
 
+    function getGenderIcon(gender) {
+        return '../images/genders/' + gender.name.toLowerCase() + '.jpg';
+    }
+
     function getRaceStandingImage(race) {
         return '../images/races/' + race.name.toLowerCase() + '-stand.png';
     }
@@ -1651,6 +1664,47 @@ module Login {
             new Tooltip($label, { showDelay: 0, hideDelay: 100, topOffset: -25 });
 
             $('<img>').attr('src', getRaceIcon(race)).appendTo($label);
+        });
+    }
+
+    function resetChosenGender() {
+        return;
+        chosenGender = undefined;
+
+        $genders.empty();
+
+        if (!hasChosenRace()) return;
+
+        var genders = Array(
+        {
+            name: 'male',
+            description: ''
+        },
+        {
+            name: 'female',
+            description: ''
+        });
+
+        genders.forEach((gender) => {
+            var $li = $('<li>').appendTo($genders);
+
+            $('<input>').attr({
+                id: 'choose-gender-' + gender.name,
+                type: 'radio',
+                name: 'gender'
+            }).val(gender.name).click(function() {
+                $(this).closest('form').submit();
+            }).appendTo($li);
+
+            var $label = $('<label>').attr({
+                'for': 'choose-gender-' + gender.name,
+                'data-tooltip-title': gender.name,
+                'data-tooltip-content': gender.description
+            }).appendTo($li);
+
+            new Tooltip($label, { showDelay: 0, hideDelay: 100, topOffset: -25 });
+
+            $('<img>').attr('src', getGenderIcon(gender)).appendTo($label);
         });
     }
 
@@ -3109,6 +3163,7 @@ module Login {
                         resetChosenRace();
                         resetChosenArchetype();
                         resetAbilities();
+                        resetChosenGender();
                         //Audio
                         playGenericButtonClick();
                     }
@@ -3217,6 +3272,7 @@ module Login {
                     name: chosenName,
                     faction: chosenFaction.name,
                     race: chosenRace.name,
+                    gender: 'Male',
                     archetype: chosenArchetype.name,
                     attributes: attrs,
                     boons: boons,
