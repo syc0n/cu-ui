@@ -130,6 +130,7 @@ enum AbilityTags {
     Cloud,
     Fountain,
     Wall,
+    Field,
     Wave,
     Pool,
     Cone,
@@ -516,7 +517,7 @@ var KeyCode = {
         0x24: 'J',
         0x27: 'SEMICOLON',
         0x28: 'APOSTROPHE',
-        0x29: 'GRAVE',
+        0x29: '`',
         0x2A: 'SHIFT',
         0x2B: 'BACKSLASH',
         0x2C: 'Z',
@@ -896,6 +897,10 @@ class CU {
 
                 if (_.isFunction(this.gameClient.OnReceiveBlockTags)) {
                     this.gameClient.OnReceiveBlockTags((blockID, tagDict) => this.Fire('HandleReceiveBlockTags', blockID, tagDict));
+                }
+
+                if (_.isFunction(this.gameClient.OnCopyBlueprint)) {
+                    this.gameClient.OnCopyBlueprint(() => this.Fire('HandleCopyBlueprint'));
                 }
 
                 this.onInit.InvokeCallbacks();
@@ -1320,6 +1325,18 @@ class CU {
     public BlockFlipZ(): void {
         if (cu.HasAPI()) {
             cuAPI.BlockFlipZ();
+        }
+    }
+
+    public CopyBlueprint(): void {
+        if (cu.HasAPI()) {
+            cuAPI.CopyBlueprint();
+        }
+    }
+
+    public PasteBlueprint(): void {
+        if (cu.HasAPI()) {
+            cuAPI.PasteBlueprint();
         }
     }
 
@@ -2066,6 +2083,7 @@ interface CUInGameAPI {
     OnReceiveBlocks(c: (buildingDict: any) => void): void;
     OnReceiveScreenShot(c: (screenShotString: any) => void): void;
     OnReceiveBlockTags(c: (blockID: number, tagDict: any) => void): void;
+    OnCopyBlueprint(c: () => void): void;
     ToggleBuildingMode(): void;
     SetBuildingMode(c: (newMode: number) => void): void;
     RequestBlocks(): void;
@@ -2080,6 +2098,8 @@ interface CUInGameAPI {
     BlockFlipX(): void;
     BlockFlipY(): void;
     BlockFlipZ(): void;
+    CopyBlueprint(): void;
+    PasteBlueprint(): void;
 
     OpenScreenshotShare(): void;
     TakeScreenshot(): void;
