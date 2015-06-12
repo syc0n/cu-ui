@@ -1185,19 +1185,20 @@ module AbilityBuilder {
 				var change = value - oldStatVal;
 				var changeP = (1.0 - (oldStatVal / value)) * 100.0;
 				var useMajor = (changeP >= 25.0 || changeP <= -25.0) ? '-major' : '';
+                var span = '';
 
 				if(change == 0){
-					change = '<span class="' + getStatChangeClass(change, stat.valType) + '"><span class="stat-change-cell"> --</span><span class="stat-change-cell"> --</span></span>';
+                    span = '<span class="' + getStatChangeClass(change, stat.valType) + '"><span class="stat-change-cell"> --</span><span class="stat-change-cell"> --</span></span>';
 				}
 				else{
-					change = '<span class="' + getStatChangeClass(change, stat.valType) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
+                    span = '<span class="' + getStatChangeClass(change, stat.valType) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
 				}
 
                 if (value % 1 !== 0) value = '<span class="stat-change-cell">' + value.toFixed(2) + '</span>';
 
 				statName = '<span class="stat-label">' + statName + ': </span>';
 
-                $('<li>').html(statName + value + change).appendTo($stats);
+                $('<li>').html(statName + value + span).appendTo($stats);
             }
         }
 
