@@ -903,6 +903,10 @@ class CU {
                     this.gameClient.OnCopyBlueprint(() => this.Fire('HandleCopyBlueprint'));
                 }
 
+                if (_.isFunction(this.gameClient.OnNewBlueprint)) {
+                    this.gameClient.OnNewBlueprint((index, name) => this.Fire('HandleNewBlueprint', index, name));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -1271,6 +1275,24 @@ class CU {
     public ChangeBlockType(newType): void {
         if (cu.HasAPI()) {
             cuAPI.ChangeBlockType(newType);
+        }
+    }
+
+    public SelectBlueprint(index): void {
+        if (cu.HasAPI()) {
+            cuAPI.SelectBlueprint(index);
+        }
+    }
+
+    public SaveBlueprint(name): void {
+        if (cu.HasAPI()) {
+            cuAPI.SaveBlueprint(name);
+        }
+    }
+
+    public RequestBlueprints(): void {
+        if (cu.HasAPI()) {
+            cuAPI.RequestBlueprints();
         }
     }
 
@@ -2084,11 +2106,15 @@ interface CUInGameAPI {
     OnReceiveScreenShot(c: (screenShotString: any) => void): void;
     OnReceiveBlockTags(c: (blockID: number, tagDict: any) => void): void;
     OnCopyBlueprint(c: () => void): void;
+    OnNewBlueprint(c: (index: number, name: string) => void): void;
     ToggleBuildingMode(): void;
     SetBuildingMode(c: (newMode: number) => void): void;
     RequestBlocks(): void;
     RequestBlockTags(c: (blockID: number) => void): void;
     ChangeBlockType(c: (newType: number) => void): void;
+    SelectBlueprint(c: (index: number) => void): void;
+    SaveBlueprint(c: (name: string) => void): void;
+    RequestBlueprints(): void;
     CommitBlock(): void;
     CancelBlockPlacement(): void;
     BlockRotateX(): void;
@@ -2208,6 +2234,9 @@ interface CUInGameAPI {
     /* Login */
 
     Connect(host: string, port: string, character: string, webAPIHost: string): void;
+
+    /* Logging */
+    OnLogMessage(c: (category: string, level: number, time: string, process: number, thread: number, message: string) => void): void;
 }
 
 declare var cuAPI: CUInGameAPI;
