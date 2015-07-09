@@ -33,7 +33,8 @@ enum Archetype {
     WaterMage = 2,
     Fighter = 3,
     Healer = 4,
-    MeleeCombatTest = 5
+    MeleeCombatTest = 5,
+    ArcherTest = 6
 }
 
 
@@ -88,7 +89,7 @@ enum AbilityTags {
     // Non-elemental
     NoMagic,
 
-    // 
+    // Physical types
     Weapon,
     Style,
     Speed,
@@ -1332,6 +1333,12 @@ class CU {
         }
     }
 
+    public ApplyStability(): void {
+        if (cu.HasAPI()) {
+            cuAPI.ApplyStability();
+        }
+    }
+
     public BlockFlipX(): void {
         if (cu.HasAPI()) {
             cuAPI.BlockFlipX();
@@ -2122,6 +2129,7 @@ interface CUInGameAPI {
     BlockRotateY(): void;
     BlockRotateZ(): void;
     RemoveIslands(): void;
+    ApplyStability(): void;
     BlockFlipX(): void;
     BlockFlipY(): void;
     BlockFlipZ(): void;
